@@ -64,13 +64,9 @@ function makeRows() {
   }return j;
 }
 
-//$("#here").text(makeRows(find));
+$("p#here").text(makeRows());
 console.log(makeRows());
 console.log(find);
-
-
-
-
 },{"./Importobj":1}],3:[function(require,module,exports){
 "use strict";
 

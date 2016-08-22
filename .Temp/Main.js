@@ -12,6 +12,6 @@ function makeRows() {
   }return j;
 }
 
-//$("#here").text(makeRows(find));
-console.log(makeRows(find));
+$("p#here").text(makeRows());
+console.log(makeRows());
 console.log(find);

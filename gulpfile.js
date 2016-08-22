@@ -24,24 +24,48 @@ var wiredep = require('wiredep').stream;
 
 // @Main serving section
 
-
-// let watch bower.json --> hooks
+gulp.task('noserved', ['hooks', 'extras', 'fnt', 'img', 'clientjs', 'sass', 'css', 'html', 'app', 'serverjs', 'serve'], function(){
+	// Just in case if you've done a lot coding/styling with no running servers to skip running tasks one-by-one
+});
 
 gulp.task('serve', ['browser-sync'], function () {
+
+	// watchdogs for development changes
+	gulp.watch('Devapp/Public/Styles/**/*.scss', ['sass']);
+	gulp.watch('Devapp/Public/Styles/**/*.css', ['css']);
+	gulp.watch('Devapp/Public/Scripts/**/*.js', ['clientjs']);
+	gulp.watch('Devapp/Public/Views/*.html', ['html']);
+	gulp.watch('Devapp/Public/Images/*.*', ['img']);
+	gulp.watch('Devapp/Public/Fonts/*.*', ['fnt']);
+	gulp.watch('Devapp/Public/Extras/*.*', ['extras']);
+	gulp.watch('Devapp/Server/**/*.*', ['serverjs']);
+	gulp.watch('Devapp/app.js', ['app']);
+	// additional watchdogs
+	gulp.watch('bower.json', ['hooks']);
+	//gulp.watch('bower.json', ['wiredep', 'hooks']);
+
 });
 
 gulp.task('browser-sync', ['nodemon'], function() {
 	browserSync.init(null, {
+		notify: true,
 		proxy: "http://localhost:5000",
-        files: ["App/Public/**/*.*"],
-        port: 9000,
+    files: ["App/Public/**/*.*"],
+    port: 9000,
+		ui: {
+    port: 9090
+		}
 	});
+	gulp.src(__filename)
+  .pipe(gp.open({uri: 'http://localhost:9090'}));
 });
 
 gulp.task('nodemon', function (cb) {
 	var started = false;
 	return nodemon({
-		script: 'App/app.js'
+		script: 'App/app.js',
+		ignore: ['App/Public/**/*.*'],
+		watch: ['App/app.js', 'App/Server/**/*.*']
 	}).on('start', function () {
 		if (!started) {
 			cb();
@@ -50,17 +74,14 @@ gulp.task('nodemon', function (cb) {
 	});
 });
 
-
-// @TODO configure nodemon && browser-sync and add watch tasks!!!
-
-// REMOVE ME AFTER COMPLETION :)
-
 // @HTML parsers / helpers
 
 gulp.task('html', ['htmlparse'], function() {
 	return gulp.src('App/Public/Views/*.html')
 	//.pipe(wiredep())
-	.pipe(gp.useref({searchPath: 'App/Public'}))
+	.pipe(gp.useref({
+		searchPath: 'App/Public'
+	}))
 	.pipe(gp.size({title: 'Production', showFiles: true}))
 	.pipe(gulp.dest('App/Public/Views'));
 })
@@ -212,7 +233,7 @@ gulp.task('wiredep', function() {
     .pipe(gulp.dest('Devapp/Public/Views'));
 });
 
-gulp.task('first', ['clean', 'hooks', 'extras', 'fnt', 'img'], function() {
+gulp.task('first', ['clean', 'hooks', 'extras', 'fnt', 'img', 'clientjs', 'css', 'html'], function() {
 	console.warn('Initial work done.\nPlease use "gulp serve" to run project');
 });
 
