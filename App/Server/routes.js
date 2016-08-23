@@ -5,10 +5,13 @@
 var app = require('express');
 var mongoose = require('mongoose');
 
-var movieList = require('./listmodel');
-var history = require('./historymodel');
-mongoose.model('movieList', movieList);
-mongoose.model('movieList', history);
+var list = require('./listmodel');
+var hist = require('./historymodel');
+mongoose.model('movieList', list);
+mongoose.model('movieList', hist);
+
+var movieList = mongoose.model('movieList');
+var history = mongoose.model('history');
 
 // @@ Movie List API section
 // # Get the list and send to client

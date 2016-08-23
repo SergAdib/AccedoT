@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var methodOverride = require('method-override');
 
-var api = reqiure('./routes');
+var api = require('./routes');
 
 var morgan = require('morgan');
 var fs = require('fs');
