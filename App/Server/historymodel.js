@@ -17,4 +17,4 @@ var history = new Schema({
   watchedMovies: [movie]
 });
 
-module.exports = history;
+module.exports = mongoose.model('history', history);

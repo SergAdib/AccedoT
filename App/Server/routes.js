@@ -2,16 +2,11 @@
 
 // @Routes for Server --> API for movies list and history
 
-var app = require('express');
+var app = require('express')();
 var mongoose = require('mongoose');
 
-var list = require('./listmodel');
-var hist = require('./historymodel');
-mongoose.model('movieList', list);
-mongoose.model('movieList', hist);
-
-var movieList = mongoose.model('movieList');
-var history = mongoose.model('history');
+var movieList = require('./listmodel');
+var history = require('./historymodel');
 
 // @@ Movie List API section
 // # Get the list and send to client

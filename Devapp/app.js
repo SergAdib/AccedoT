@@ -9,7 +9,7 @@ var bodyParser      = require('body-parser');
 var path            = require('path');
 var methodOverride  = require('method-override');
 
-var api             = require('./routes');
+var api             = require('./Server/routes');
 
 var morgan          = require('morgan');
 var fs              = require('fs');
@@ -39,16 +39,11 @@ mongoose.connect('mongodb://localhost:27017/accedot');
 
 
 // Start your engines. .. ... :)
+app.use('/api', api);
 
-app.use('api/', api);
-
-
-app.get('/', function(req, res) {
+app.get('*', function(req, res) {
     res.sendFile('index.html', {root: __dirname + '/Public/Views'});
 });
-
-
-
 
 // Start server
 app.listen(5000);

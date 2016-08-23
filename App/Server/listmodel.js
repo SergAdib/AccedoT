@@ -61,4 +61,4 @@ var movieList = new Schema({
   id: { type: String, required: true }
 });
 
-module.exports = movieList;
+module.exports = mongoose.model('movieList', movieList);
