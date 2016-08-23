@@ -58,6 +58,8 @@ gulp.task('browser-sync', ['nodemon'], function() {
 	});
 	gulp.src(__filename)
   .pipe(gp.open({uri: 'http://localhost:9090'}));
+	gulp.src('Devapp/Logs/applogs.log')
+  .pipe(gp.open({app : 'google-chrome'}));
 });
 
 gulp.task('nodemon', function (cb) {
