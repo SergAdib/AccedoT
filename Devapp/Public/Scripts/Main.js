@@ -1,6 +1,10 @@
-import {setMovObjCollection} from './Importobj'
+import {listController} from './listcontroller'
+import {historyController} from './historycontroller'
 
-var find = new setMovObjCollection("http://demo2697834.mockable.io/movies", false);
+var Movies = angular.module('Movies', []);
+Movies.controller('listController', listController);
+Movies.controller('historyController', historyController);
+
 
 function makeRows() {
   let i = 0;
@@ -11,5 +15,3 @@ function makeRows() {
 
 
 $("p#here").text(makeRows());
-console.log(makeRows());
-console.log(find);

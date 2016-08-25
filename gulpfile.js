@@ -24,7 +24,7 @@ var wiredep = require('wiredep').stream;
 
 // @Main serving section
 
-gulp.task('noserved', ['hooks', 'extras', 'fnt', 'img', 'clientjs', 'sass', 'css', 'html', 'app', 'serverjs', 'serve'], function(){
+gulp.task('noserved', ['hooks', 'extras', 'fnt', 'img', 'clientjs', 'sass', 'css', 'html', 'app', 'serverjs'], function(){
 	// Just in case if you've done a lot coding/styling with no running servers to skip running tasks one-by-one
 });
 

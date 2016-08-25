@@ -16,22 +16,25 @@ app.get('/mlist', function (req, res) {
       if (err) {
         res.send(err);
       } else {
-        res.json(list);
+        var reslist = {};
+        reslist.total = list.length;
+        reslist.entries = list;
+        res.json(reslist);
       }
     });
   } else {
-    console.log('movieList not found');
+    console.log('No movieList collection found in DB');
   }
 });
 
 // # If update invoked from client
 app.post('/mlist', function (req, res) {
-  var err = 'You can not create and insert movie instance! Please refer API documentation.';
+  var err = 'You can not create or insert movie instance! Please refer API documentation.';
   res.status(500).send({ error: err });
 });
 
 // # If delete invoked from client
-app.delete('/mlist', function (req, res) {
+app.delete('/mlist/:id/:_id', function (req, res) {
   var err = 'You can not delete list nor movie instance! Please refer API documentation.';
   res.status(500).send({ error: err });
 });
@@ -50,7 +53,7 @@ app.get('/history/:session_id', function (req, res) {
       }
     });
   } else {
-    console.log('History not found');
+    console.log('No history collection found in DB');
   }
 });
 
@@ -81,7 +84,7 @@ app.post('/history', function (req, res) {
       });
     })();
   } else {
-    console.log('History not found');
+    console.log('No history collection found in DB');
   }
 });
 
@@ -98,7 +101,7 @@ app.delete('/history/:session_id', function (req, res) {
       }
     });
   } else {
-    console.log('History not found');
+    console.log('No history collection found in DB');
   }
 });
 

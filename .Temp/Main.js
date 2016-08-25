@@ -1,8 +1,12 @@
 'use strict';
 
-var _Importobj = require('./Importobj');
+var _listcontroller = require('./listcontroller');
 
-var find = new _Importobj.setMovObjCollection("http://demo2697834.mockable.io/movies", false);
+var _historycontroller = require('./historycontroller');
+
+var Movies = angular.module('Movies', []);
+Movies.controller('listController', _listcontroller.listController);
+Movies.controller('historyController', _historycontroller.historyController);
 
 function makeRows() {
   var i = 0;
@@ -13,5 +17,3 @@ function makeRows() {
 }
 
 $("p#here").text(makeRows());
-console.log(makeRows());
-console.log(find);

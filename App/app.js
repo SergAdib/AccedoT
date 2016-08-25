@@ -15,7 +15,7 @@ var api = require('./Server/routes');
 var morgan = require('morgan');
 var fs = require('fs');
 
-// ##Comm.: Logging used only in dev mode. Should be wiped on production
+// ##Comm.: Logging used only in dev mode. To be wiped on production
 // // Flags 'a' to append, 'w+' to rewrite
 // // Logging all to 'applogs' and errors to 'errlogs'
 var logStream = fs.createWriteStream(__dirname + '/../Devapp/Logs/applogs.log', { flags: 'w+' });
@@ -36,11 +36,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
-// DB configuration
+// DB configuration - simple, without log/pass
 
 mongoose.connect('mongodb://localhost:27017/accedot');
 
-// Start your engines. .. ... :)
+// Start your engines :)
+// // Process calls to API and send 'index' to all others, not related
 app.use('/api', api);
 
 app.get('*', function (req, res) {
