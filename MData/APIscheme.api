@@ -1,0 +1,17 @@
+// API Documentation
+
+/api/mlist    --> Process queries to movieList Collection
+/api/history  --> Process queries to history Collection
+
+--------------------------------------------------------------------------------------------
+|    Resource           | POST (create)   |  POST (update) |      GET (read)  |   DELETE   |
+|      URI              |                 |                |                  |            |
+--------------------------------------------------------------------------------------------
+| /mlist                |  error          |  error         |  get movies list | error      |
+| /mlist/:id/:_id       |  error          |  error         |  error           | error      |
+--------------------------------------------------------------------------------------------
+| /history              | create (if new) | update bulk    |  error           | error      |
+| /history/:session_id  | error           | error          |  get a history   | delete     |
+--------------------------------------------------------------------------------------------
+
+// EOF

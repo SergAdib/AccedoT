@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" ng-app="Movies">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -26,10 +26,21 @@
   <![endif]-->
 
     <!-- Main container -->
-    <div class="container-fluid" id="main">
+    <div class="container-fluid" id="main" ng-controller="listController">
 
-      <p id="here"></p>
+      <p>Start of story</p>
+
+
+
+
+
+
+
+
       <p>End of story</p>
+      <div ng-controller="historyController">
+        <span>History</span>
+      </div>
 
     </div>
     <!-- End of main container -->
@@ -37,6 +48,7 @@
   <!-- build:js ../Scripts/Vendors.js -->
     <script src="Scripts/Vendors/jquery.min.js"></script>
     <script src="Scripts/Vendors/bootstrap.min.js"></script>
+    <script src="Scripts/Vendors/lockr.min.js"></script>
   <!-- endbuild -->
 
   <script src="Scripts/Build.js"></script>
