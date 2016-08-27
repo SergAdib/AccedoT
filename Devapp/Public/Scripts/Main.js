@@ -10,5 +10,4 @@ Movies.controller('historyController', historyController);
 
 
 
-
 // @ End of main module

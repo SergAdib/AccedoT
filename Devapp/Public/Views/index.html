@@ -33,13 +33,13 @@
 
 
 
-
-
-
-
       <p>End of story</p>
-      <div ng-controller="historyController">
+      <div ng-controller="historyController" ng-init="initHistory()">
         <span>History</span>
+
+        <span class="btn btn-success" ng-click="updateHistory();">Update History</span>
+        <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
+
       </div>
 
     </div>
