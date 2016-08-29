@@ -7,7 +7,11 @@ import {myID} from './idmaker'
 // // 'deleteHistory()' for History deleting, both on localStorage and DB
 // // 'addWatched(id,title)' to insert (or refresh watching date if watched already) watched movie into History,
 // // takes 2 movie properties: id && title
-export function historyController($scope, $http, $window) {
+
+// // Comm.: Adding every movie instance into a History triggers history storing/refreshing in localStorage,
+// // DB update performs only upon leaving page / app closing. In case when error or unexpected problem prevented
+// // history saving to DB, on next run app matchs histories stored locally and remotely and choose newest.
+export function historyController($scope, $http) {
   $scope.history = {};
   $scope.gotHistory = {};
   $scope.storedHistory = {};
@@ -20,13 +24,6 @@ export function historyController($scope, $http, $window) {
       $scope.saveStoredHistory();
     }
     console.log("History successfully initiated");
-  };
-
-// @TODO autoexec on unload
-  $window.onbeforeunload = $scope.onExit;
-  $scope.onExit = function() {
-    $scope.updateHistory();
-    console.log("History updated on leaving");
   };
 
   // AJAX operations with server/DB on history Collection
@@ -82,12 +79,17 @@ export function historyController($scope, $http, $window) {
     watched.id = id;
     watched.title = title;
     watched.watchDate = new Date();
+    if (!$scope.history.watchedMovies) {
+      console.log("No history found, probably was cleared by user");
+      $scope.initHistory();
+    }
     index = $scope.history.watchedMovies.findIndex(x => ((x.id == id) && (x.title == title)));
     if (index != -1) {
       $scope.history.watchedMovies.splice(index, 1);
       console.log("Movie entry refreshed");
     }
     $scope.history.watchedMovies.push(watched);
+    $scope.saveStoredHistory();
     console.log("Movie array +1");
   };
 
@@ -110,6 +112,7 @@ export function historyController($scope, $http, $window) {
       $scope.history.session_id = myID.make();
       console.log("History succesfully created");
     }
+  console.log("Obj created: ");
   console.log($scope.history);
   };
 

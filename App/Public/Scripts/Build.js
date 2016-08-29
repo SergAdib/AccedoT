@@ -5,20 +5,45 @@ var _listcontroller = require('./listcontroller');
 
 var _historycontroller = require('./historycontroller');
 
+var _carouselcontroller = require('./carouselcontroller');
+
 var Movies = angular.module('Movies', []);
+
 Movies.controller('listController', _listcontroller.listController);
 Movies.controller('historyController', _historycontroller.historyController);
+Movies.controller('carouselController', _carouselcontroller.carouselController);
+
+// Autoexec History update initiation before page closing/leaving, both to localStorage and DB
+window.addEventListener('beforeunload', function (e) {
+  console.log('Leaving the page');
+  var scope = angular.element(document.getElementById("historywrapper")).scope();
+  scope.$apply(function () {
+    scope.updateHistory();
+  });
+});
 
 // @ End of main module
-},{"./historycontroller":2,"./listcontroller":4}],2:[function(require,module,exports){
+},{"./carouselcontroller":2,"./historycontroller":3,"./listcontroller":5}],2:[function(require,module,exports){
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.carouselController = carouselController;
+// @Angular controller for movie list carousel
+
+function carouselController($scope) {}
+
+// End of Controller
+},{}],3:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.historyController = historyController;
 
-var _idmaker = require("./idmaker");
+var _idmaker = require('./idmaker');
 
 // // History controller has 4 main methods:
 // // 'initHistory()' for History initiation, it takes whatever is and newer from localStorage or DB
@@ -26,7 +51,11 @@ var _idmaker = require("./idmaker");
 // // 'deleteHistory()' for History deleting, both on localStorage and DB
 // // 'addWatched(id,title)' to insert (or refresh watching date if watched already) watched movie into History,
 // // takes 2 movie properties: id && title
-function historyController($scope, $http, $window) {
+
+// // Comm.: Adding every movie instance into a History triggers history storing/refreshing in localStorage,
+// // DB update performs only upon leaving page / app closing. In case when error or unexpected problem prevented
+// // history saving to DB, on next run app matchs histories stored locally and remotely and choose newest.
+function historyController($scope, $http) {
   $scope.history = {};
   $scope.gotHistory = {};
   $scope.storedHistory = {};
@@ -39,13 +68,6 @@ function historyController($scope, $http, $window) {
       $scope.saveStoredHistory();
     }
     console.log("History successfully initiated");
-  };
-
-  // @TODO autoexec on unload
-  $window.onbeforeunload = $scope.onExit;
-  $scope.onExit = function () {
-    $scope.updateHistory();
-    console.log("History updated on leaving");
   };
 
   // AJAX operations with server/DB on history Collection
@@ -95,6 +117,10 @@ function historyController($scope, $http, $window) {
     watched.id = id;
     watched.title = title;
     watched.watchDate = new Date();
+    if (!$scope.history.watchedMovies) {
+      console.log("No history found, probably was cleared by user");
+      $scope.initHistory();
+    }
     index = $scope.history.watchedMovies.findIndex(function (x) {
       return x.id == id && x.title == title;
     });
@@ -103,6 +129,7 @@ function historyController($scope, $http, $window) {
       console.log("Movie entry refreshed");
     }
     $scope.history.watchedMovies.push(watched);
+    $scope.saveStoredHistory();
     console.log("Movie array +1");
   };
 
@@ -125,6 +152,7 @@ function historyController($scope, $http, $window) {
       $scope.history.session_id = _idmaker.myID.make();
       console.log("History succesfully created");
     }
+    console.log("Obj created: ");
     console.log($scope.history);
   };
 
@@ -153,7 +181,7 @@ function historyController($scope, $http, $window) {
 }
 // @End of history Controller
 // @Angular controller for watched movie list / history representation
-},{"./idmaker":3}],3:[function(require,module,exports){
+},{"./idmaker":4}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -186,8 +214,8 @@ var myID = exports.myID = function () {
 }();
 
 // EOF
-},{}],4:[function(require,module,exports){
-'use strict';
+},{}],5:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -199,6 +227,7 @@ function listController($scope, $http) {
   $scope.list = [];
   $scope.count = 0;
   $scope.update = {};
+  $scope.medium = 0;
 
   // AJAX operations with server/DB on movielist Collection
   // // Get the movie list
@@ -206,8 +235,40 @@ function listController($scope, $http) {
     if (data.total > 0) {
       $scope.list = data.entries;
       $scope.count = data.total;
+      $scope.medium = Math.round($scope.count / 2);
+      $scope.list.forEach(function (x) {
+        return x.active = "";
+      });
+      $scope.list[$scope.medium].active = "active";
+      ////////////////////
+      console.log("Movie list downloaded from DB");
+      var tags = '';
+      for (var i = 0; i < $scope.list.length; i++) {
+        tags += '<div class="item ' + $scope.list[i].active + '"><div class="col-xs-12 col-sm-4 col-md-2">' + '<a href="#"><img src="' + $scope.list[i].images[0].url + '" class="img-responsive"></a></div></div>' + '<!-- End of ' + i + 'slide tag -->';
+      }
+      $('#InnerCarousel').append(tags);
+
+      $(document).ready(function () {
+
+        $('#MovieCarousel').carousel({ interval: 4000 });
+
+        $('#InnerCarousel .item').each(function () {
+          var itemToClone = $(this);
+
+          for (var i = 1; i < 6; i++) {
+            itemToClone = itemToClone.next();
+
+            if (!itemToClone.length) {
+              itemToClone = $(this).siblings(':first');
+            }
+
+            itemToClone.children(':first-child').clone().addClass("cloneditem-" + i).appendTo($(this));
+          }
+        });
+      });
+
+      ////////////////////
     }
-    console.log($scope.count);
   }).error(function (data) {
     console.log('Error: ' + data);
   });
@@ -234,7 +295,6 @@ function listController($scope, $http) {
   };
 
   // Events for movielist
-
 }
 // @End of movie list Controller
 },{}]},{},[1]);

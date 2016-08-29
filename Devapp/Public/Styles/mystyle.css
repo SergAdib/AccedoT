@@ -3,6 +3,42 @@ body {
     color: red;
     font-size:24px;
 }
-#here {
-  color: #345643;
+
+
+/*
+#movieCarousel {
+  width: 98%;
+  height: 350px;
+  background-color: #dadada;
+  align-content: center;
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px 9px;
 }
+#innerCarousel {
+  width: 669px;
+  height: 330px;
+  padding: 0;
+  border: 1px dotted green;
+  margin: 0 auto;
+}
+
+#innerCarousel div.item {
+  width: 215px;
+  height: 320px;
+  margin: 5px 3px;
+  padding: 1px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+#innerCarousel div.item.active.left  { left: -33%;             }
+#innerCarousel div.item.active.right { left: 33%;              }
+#innerCarousel div.item.next         { left: 33%               }
+#innerCarousel div.item.prev         { left: -33%              }
+
+
+.carousel-control.left        { background-image: none; }
+.carousel-control.right       { background-image: none; }
+.carousel-inner .item         { background: white;      }
+*/

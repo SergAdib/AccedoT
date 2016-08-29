@@ -15,26 +15,60 @@
     <link href="Styles/Main.css" rel="stylesheet">
 
   </head>
-  <body>
+  <body ng-controller="listController">
   <!--[if lt IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
     <!-- Main container -->
-    <div class="container-fluid" id="main" ng-controller="listController">
-
-      <p>Start of story</p>
+    <div class="container-fluid" id="main">
 
 
+      <div class="row">
+        <div class="col-md-12">
+          <div class="carousel carousel-extended slide" id="MovieCarousel" ng-controller="carouselController">
+
+            <ol id="IndicateCarousel" class="carousel-indicators">
+              <li data-target="#MovieCarousel" ng-repeat="item in list" data-slide-to="{{$index}}" class="{{item.active}}"></li>
+            </ol>
+          
+            <div id="InnerCarousel" class="carousel-inner" role="listbox">
 
 
-      <p>End of story</p>
-      <div ng-controller="historyController" ng-init="initHistory()">
+
+
+<!--
+              <div class="item {{item.active}}" ng-repeat="item in list">
+                <div class="col-xs-12 col-sm-4 col-md-2">
+                  <a href="#"><img src="{{item.images[0].url}}" alt="{{item.images[0].type}}" class="img-responsive"></a>
+                </div>
+                <div class="carousel-caption">
+                  <h3>{{item.title}}</h3>
+                  <span>And what it is: {{$index}}</span>
+                </div>
+              </div>
+-->
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#MovieCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#MovieCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="historywrapper" ng-controller="historyController" ng-init="initHistory()">
         <span>History</span>
-
-        <span class="btn btn-success" ng-click="updateHistory();">Update History</span>
+        <span class="btn btn-success" ng-click="addWatched('my_id','my_title');">Insert movie</span>
         <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
-
       </div>
 
     </div>

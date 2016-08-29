@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.historyController = historyController;
 
-var _idmaker = require("./idmaker");
+var _idmaker = require('./idmaker');
 
 // // History controller has 4 main methods:
 // // 'initHistory()' for History initiation, it takes whatever is and newer from localStorage or DB
@@ -13,7 +13,11 @@ var _idmaker = require("./idmaker");
 // // 'deleteHistory()' for History deleting, both on localStorage and DB
 // // 'addWatched(id,title)' to insert (or refresh watching date if watched already) watched movie into History,
 // // takes 2 movie properties: id && title
-function historyController($scope, $http, $window) {
+
+// // Comm.: Adding every movie instance into a History triggers history storing/refreshing in localStorage,
+// // DB update performs only upon leaving page / app closing. In case when error or unexpected problem prevented
+// // history saving to DB, on next run app matchs histories stored locally and remotely and choose newest.
+function historyController($scope, $http) {
   $scope.history = {};
   $scope.gotHistory = {};
   $scope.storedHistory = {};
@@ -26,13 +30,6 @@ function historyController($scope, $http, $window) {
       $scope.saveStoredHistory();
     }
     console.log("History successfully initiated");
-  };
-
-  // @TODO autoexec on unload
-  $window.onbeforeunload = $scope.onExit;
-  $scope.onExit = function () {
-    $scope.updateHistory();
-    console.log("History updated on leaving");
   };
 
   // AJAX operations with server/DB on history Collection
@@ -82,6 +79,10 @@ function historyController($scope, $http, $window) {
     watched.id = id;
     watched.title = title;
     watched.watchDate = new Date();
+    if (!$scope.history.watchedMovies) {
+      console.log("No history found, probably was cleared by user");
+      $scope.initHistory();
+    }
     index = $scope.history.watchedMovies.findIndex(function (x) {
       return x.id == id && x.title == title;
     });
@@ -90,6 +91,7 @@ function historyController($scope, $http, $window) {
       console.log("Movie entry refreshed");
     }
     $scope.history.watchedMovies.push(watched);
+    $scope.saveStoredHistory();
     console.log("Movie array +1");
   };
 
@@ -112,6 +114,7 @@ function historyController($scope, $http, $window) {
       $scope.history.session_id = _idmaker.myID.make();
       console.log("History succesfully created");
     }
+    console.log("Obj created: ");
     console.log($scope.history);
   };
 

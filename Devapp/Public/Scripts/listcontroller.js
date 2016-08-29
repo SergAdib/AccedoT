@@ -4,6 +4,7 @@ export function listController($scope, $http) {
   $scope.list = [];
   $scope.count = 0;
   $scope.update = {};
+  $scope.medium = 0;
 
   // AJAX operations with server/DB on movielist Collection
   // // Get the movie list
@@ -12,8 +13,46 @@ export function listController($scope, $http) {
       if (data.total > 0) {
         $scope.list = data.entries;
         $scope.count = data.total;
+        $scope.medium = (Math.round($scope.count / 2));
+        $scope.list.forEach(x => x.active = "");
+        $scope.list[$scope.medium].active = "active";
+        ////////////////////
+        console.log("Movie list downloaded from DB");
+        let tags ='';
+        for (var i=0; i < $scope.list.length; i++) {
+          tags += '<div class="item ' + $scope.list[i].active
+               + '"><div class="col-xs-12 col-sm-4 col-md-2">'
+               + '<a href="#"><img src="' + $scope.list[i].images[0].url
+               + '" class="img-responsive"></a></div></div>'
+               + '<!-- End of ' + i + 'slide tag -->';
+        }
+        $('#InnerCarousel').append(tags);
+
+        $(document).ready(function(){
+
+          $('#MovieCarousel').carousel({ interval: 4000 });
+
+          $('#InnerCarousel .item').each(function(){
+            var itemToClone = $(this);
+
+            for (var i=1;i<6;i++) {
+              itemToClone = itemToClone.next();
+
+              if (!itemToClone.length) {
+                itemToClone = $(this).siblings(':first');
+              }
+
+              itemToClone.children(':first-child').clone()
+                .addClass("cloneditem-"+(i))
+                .appendTo($(this));
+            }
+          });
+
+        });
+
+
+        ////////////////////
       }
-      console.log($scope.count);
     })
     .error(function(data) {
       console.log('Error: ' + data);
@@ -45,11 +84,6 @@ export function listController($scope, $http) {
   };
 
   // Events for movielist
-
-
-
-
-
 
 }
 // @End of movie list Controller
