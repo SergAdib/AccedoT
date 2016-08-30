@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@AccedoTV - TV on Demand</title>
+    <title>@Accedo - TV on Demand</title>
     <meta name="description" content="AccedoTV test task">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../Styles/Vendors.css">
     <script src="../Scripts/Angular.js"></script>
 
+    <!-- Angular controllers bundle -->
+    <script src="Scripts/Build.js"></script>
+    <!-- Custom styles bundle       -->
     <link href="Styles/Main.css" rel="stylesheet">
 
   </head>
@@ -20,37 +23,34 @@
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+<!-- Page layout && functionality section --------------------------------------------------------->
+
     <!-- Main container -->
     <div class="container-fluid" id="main">
 
+      <!-- Header / History container -->
+      <div id="historywrapper" ng-controller="historyController" ng-init="initHistory()">
+        <span>History</span>
+        <span class="btn btn-success" ng-click="addWatched('my_id','my_title');">Insert movie</span>
+        <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
+        <p>*</p>
+      </div>
+      <!-- End of Header / History container -->
 
+      <!-- Carousel container -->
       <div class="row">
         <div class="col-md-12">
           <div class="carousel carousel-extended slide" id="MovieCarousel" ng-controller="carouselController">
-
+            <!-- Indicators (optional) -->
             <ol id="IndicateCarousel" class="carousel-indicators">
               <li data-target="#MovieCarousel" ng-repeat="item in list" data-slide-to="{{$index}}" class="{{item.active}}"></li>
             </ol>
-          
+            <!-- Inner carousel container -->
             <div id="InnerCarousel" class="carousel-inner" role="listbox">
-
-
-
-
-<!--
-              <div class="item {{item.active}}" ng-repeat="item in list">
-                <div class="col-xs-12 col-sm-4 col-md-2">
-                  <a href="#"><img src="{{item.images[0].url}}" alt="{{item.images[0].type}}" class="img-responsive"></a>
-                </div>
-                <div class="carousel-caption">
-                  <h3>{{item.title}}</h3>
-                  <span>And what it is: {{$index}}</span>
-                </div>
-              </div>
--->
+              <!-- Content build by carousel controller -->
+              <!-- Inserted after all list is done -->
             </div>
-
-            <!-- Controls -->
+            <!-- Carousel controls -->
             <a class="left carousel-control" href="#MovieCarousel" role="button" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
@@ -62,21 +62,20 @@
           </div>
         </div>
       </div>
+      <!-- End of carousel container -->
 
 
 
-      <div id="historywrapper" ng-controller="historyController" ng-init="initHistory()">
-        <span>History</span>
-        <span class="btn btn-success" ng-click="addWatched('my_id','my_title');">Insert movie</span>
-        <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
-      </div>
+
+
 
     </div>
     <!-- End of main container -->
 
-  <script src="../Scripts/Vendors.js"></script>
+<!-- Scripts && Footer section -------------------------------------------------------------------->
+    <script src="../Scripts/Vendors.js"></script>
+    <script src="Scripts/Footer.js"></script>
 
-  <script src="Scripts/Build.js"></script>
 
 <!--  @@@TODO:: Google Analytics: change UA-XXXXX-X to be your site's ID.
   <script>

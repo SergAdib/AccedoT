@@ -13,17 +13,62 @@ Movies.controller('listController', _listcontroller.listController);
 Movies.controller('historyController', _historycontroller.historyController);
 Movies.controller('carouselController', _carouselcontroller.carouselController);
 
-// Autoexec History update initiation before page closing/leaving, both to localStorage and DB
-window.addEventListener('beforeunload', function (e) {
-  console.log('Leaving the page');
-  var scope = angular.element(document.getElementById("historywrapper")).scope();
-  scope.$apply(function () {
-    scope.updateHistory();
-  });
-});
-
 // @ End of main module
-},{"./carouselcontroller":2,"./historycontroller":3,"./listcontroller":5}],2:[function(require,module,exports){
+},{"./carouselcontroller":3,"./historycontroller":4,"./listcontroller":6}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.carouselBuilder = carouselBuilder;
+// @Helper function for movie list representation
+// // This is to achieve workability of bootstrap carousel with angular loaded content
+
+function carouselBuilder(obj, counter) {
+
+  // Start building carousel items scheme
+  var tags = '';
+  for (var i = 0; i < counter; i++) {
+    tags += '<div class="item ' + obj[i].active + '"><div class="col-xs-12 col-sm-4 col-md-2">' + '<a href="#' + i + '" onclick="expand(this);"><img src="' + obj[i].images[0].url + '" class="img-responsive" alt="' + obj[i].images[0].type + '" title="' + obj[i].title + '"></a></div></div>' + '<!-- End of ' + i + ' slide tag -->';
+  }
+
+  /*
+  Temporary to store scheme
+  
+  
+      <a href="#"><img src="{{item.images[0].url}}" alt="{{item.images[0].type}}" class="img-responsive"></a>
+    </div>
+    <div class="carousel-caption">
+      <h3>{{item.title}}</h3>
+      <span>And what it is: {{$index}}</span>
+    </div>
+  </div>
+  
+  */
+
+  // Apply scheme to carousel inner element
+  $('#InnerCarousel').append(tags);
+
+  // Make sure DOM loaded && start carousel
+  $(document).ready(function () {
+    // Set interval
+    $('#MovieCarousel').carousel({ interval: 15000 });
+    // Set multiple slides scrolling
+    $('#InnerCarousel .item').each(function () {
+      var itemToClone = $(this);
+      for (var i = 1; i < 6; i++) {
+        itemToClone = itemToClone.next();
+        if (!itemToClone.length) {
+          itemToClone = $(this).siblings(':first');
+        }
+        itemToClone.children(':first-child').clone().addClass("cloneditem-" + i).appendTo($(this));
+      };
+    });
+  });
+}
+
+// EOF
+},{}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32,10 +77,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.carouselController = carouselController;
 // @Angular controller for movie list carousel
 
-function carouselController($scope) {}
+function carouselController($scope) {
+
+  $scope.expand = function (id) {
+    alert("You clicked on slide: " + id + " title: " + $scope.list[id].title);
+  };
+}
 
 // End of Controller
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -181,7 +231,7 @@ function historyController($scope, $http) {
 }
 // @End of history Controller
 // @Angular controller for watched movie list / history representation
-},{"./idmaker":4}],4:[function(require,module,exports){
+},{"./idmaker":5}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -214,13 +264,16 @@ var myID = exports.myID = function () {
 }();
 
 // EOF
-},{}],5:[function(require,module,exports){
-"use strict";
+},{}],6:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.listController = listController;
+
+var _carouselbuilder = require('./carouselbuilder');
+
 // @Angular controller for movie list representation
 
 function listController($scope, $http) {
@@ -235,39 +288,15 @@ function listController($scope, $http) {
     if (data.total > 0) {
       $scope.list = data.entries;
       $scope.count = data.total;
+      // Below section is to mark active/inactive class and start from the middle of the carousel list
       $scope.medium = Math.round($scope.count / 2);
       $scope.list.forEach(function (x) {
         return x.active = "";
       });
       $scope.list[$scope.medium].active = "active";
-      ////////////////////
-      console.log("Movie list downloaded from DB");
-      var tags = '';
-      for (var i = 0; i < $scope.list.length; i++) {
-        tags += '<div class="item ' + $scope.list[i].active + '"><div class="col-xs-12 col-sm-4 col-md-2">' + '<a href="#"><img src="' + $scope.list[i].images[0].url + '" class="img-responsive"></a></div></div>' + '<!-- End of ' + i + 'slide tag -->';
-      }
-      $('#InnerCarousel').append(tags);
-
-      $(document).ready(function () {
-
-        $('#MovieCarousel').carousel({ interval: 4000 });
-
-        $('#InnerCarousel .item').each(function () {
-          var itemToClone = $(this);
-
-          for (var i = 1; i < 6; i++) {
-            itemToClone = itemToClone.next();
-
-            if (!itemToClone.length) {
-              itemToClone = $(this).siblings(':first');
-            }
-
-            itemToClone.children(':first-child').clone().addClass("cloneditem-" + i).appendTo($(this));
-          }
-        });
-      });
-
-      ////////////////////
+      // EOS
+      (0, _carouselbuilder.carouselBuilder)($scope.list, $scope.count);
+      console.log("Movie list downloaded from DB, carousel initiated");
     }
   }).error(function (data) {
     console.log('Error: ' + data);
@@ -293,10 +322,8 @@ function listController($scope, $http) {
       console.log('Error: ' + data);
     });
   };
-
-  // Events for movielist
 }
 // @End of movie list Controller
-},{}]},{},[1]);
+},{"./carouselbuilder":2}]},{},[1]);
 
 //# sourceMappingURL=Build.js.map

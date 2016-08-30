@@ -132,7 +132,13 @@ gulp.task('jscompile', function() {
 	return code;
 })
 
-gulp.task('clientjs', ['jscompile'], function() {
+gulp.task('jsfooter', function() {
+	var code =  gulp.src('.Temp/Footer.js')
+		.pipe(gulp.dest('App/Public/Scripts/'));
+	return code;
+})
+
+gulp.task('clientjs', ['jscompile', 'jsfooter'], function() {
 	var bundled = browserify({ basedir : '.Temp'});
 	var code = bundled.add('./Main.js')
 		.bundle()

@@ -1,3 +1,4 @@
+import {carouselBuilder} from './carouselbuilder'
 // @Angular controller for movie list representation
 
 export function listController($scope, $http) {
@@ -13,45 +14,13 @@ export function listController($scope, $http) {
       if (data.total > 0) {
         $scope.list = data.entries;
         $scope.count = data.total;
+        // Below section is to mark active/inactive class and start from the middle of the carousel list
         $scope.medium = (Math.round($scope.count / 2));
         $scope.list.forEach(x => x.active = "");
         $scope.list[$scope.medium].active = "active";
-        ////////////////////
-        console.log("Movie list downloaded from DB");
-        let tags ='';
-        for (var i=0; i < $scope.list.length; i++) {
-          tags += '<div class="item ' + $scope.list[i].active
-               + '"><div class="col-xs-12 col-sm-4 col-md-2">'
-               + '<a href="#"><img src="' + $scope.list[i].images[0].url
-               + '" class="img-responsive"></a></div></div>'
-               + '<!-- End of ' + i + 'slide tag -->';
-        }
-        $('#InnerCarousel').append(tags);
-
-        $(document).ready(function(){
-
-          $('#MovieCarousel').carousel({ interval: 4000 });
-
-          $('#InnerCarousel .item').each(function(){
-            var itemToClone = $(this);
-
-            for (var i=1;i<6;i++) {
-              itemToClone = itemToClone.next();
-
-              if (!itemToClone.length) {
-                itemToClone = $(this).siblings(':first');
-              }
-
-              itemToClone.children(':first-child').clone()
-                .addClass("cloneditem-"+(i))
-                .appendTo($(this));
-            }
-          });
-
-        });
-
-
-        ////////////////////
+        // EOS
+        carouselBuilder($scope.list, $scope.count);
+        console.log("Movie list downloaded from DB, carousel initiated");
       }
     })
     .error(function(data) {
@@ -82,8 +51,6 @@ export function listController($scope, $http) {
         console.log('Error: ' + data);
       });
   };
-
-  // Events for movielist
 
 }
 // @End of movie list Controller
