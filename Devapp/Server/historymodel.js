@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 var movie = new Schema({
   id         : { type: String, required: true },
   title      : { type: String, required: true },
+  stopTime   : { type: Number, default: 0 },
   watchDate  : { type: Date, default: Date.now }
 });
 

@@ -11,13 +11,13 @@ var _idmaker = require('./idmaker');
 // // 'initHistory()' for History initiation, it takes whatever is and newer from localStorage or DB
 // // 'updateHistory()' for History refreshing, both on localStorage and DB, autoupdate before page closing
 // // 'deleteHistory()' for History deleting, both on localStorage and DB
-// // 'addWatched(id,title)' to insert (or refresh watching date if watched already) watched movie into History,
-// // takes 2 movie properties: id && title
+// // 'addWatched(id,title,time)' to insert (or refresh watching date if watched already) watched movie into History,
+// // takes 2 movie properties: id && title and current time
 
 // // Comm.: Adding every movie instance into a History triggers history storing/refreshing in localStorage,
 // // DB update performs only upon leaving page / app closing. In case when error or unexpected problem prevented
 // // history saving to DB, on next run app matchs histories stored locally and remotely and choose newest.
-function historyController($scope, $http) {
+function historyController($scope, $http, $rootScope) {
   $scope.history = {};
   $scope.gotHistory = {};
   $scope.storedHistory = {};
@@ -73,11 +73,17 @@ function historyController($scope, $http) {
   };
 
   // Events for history
-  $scope.addWatched = function (id, title) {
+
+  $rootScope.$on('movieRefreshed', function (event, args) {
+    $scope.addWatched(args[0], args[1], args[2]);
+  });
+
+  $scope.addWatched = function (id, title, time) {
     var index = -1;
     var watched = {};
     watched.id = id;
     watched.title = title;
+    watched.stopTime = time;
     watched.watchDate = new Date();
     if (!$scope.history.watchedMovies) {
       console.log("No history found, probably was cleared by user");

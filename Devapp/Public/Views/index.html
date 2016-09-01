@@ -36,7 +36,7 @@
       <!-- Header / History container -->
       <div id="historywrapper" ng-controller="historyController" ng-init="initHistory()">
         <span>History</span>
-        <span class="btn btn-success" ng-click="addWatched('my_id','my_title');">Insert movie</span>
+        <span class="btn btn-success" ng-click="addWatched('my_id','my_title', 0);">Insert movie</span>
         <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
         <p>*</p>
       </div>
@@ -74,6 +74,46 @@
 
 
 
+
+
+
+
+
+      <!-- Modal window for movie details && screen -->
+      <div class="modal fade" id="MovieModal" tabindex="-1" role="dialog" aria-labelledby="MovieModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="MovieModalLabel">Movie title</h4>
+            </div>
+
+            <div class="modal-body">
+              <div id="mmPlayer">
+                <!-- Player configuration section -->
+                <video id="mmVideo" controls preload=metadata width="320" height="180" poster="ajax-loader.jpg">
+                  <!-- Sources inserted from controller, width/height/image ajusted -->
+                </video>
+
+              </div>
+              <p>Production date:&nbsp;<span id="mmDate">Movie published date goes here</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;Duration:&nbsp;<span id="mmDuration">Movie duration time goes here</span></p>
+              <p>Description:&nbsp;<span id="mmDescription">Movie description goes here</span></p>
+              <p>Rating:&nbsp;<span id="mmRating">Movie ratings go here</span></p>
+              <p>Filmed by:&nbsp;<span id="mmCrew">Movie crew members go here</span></p>
+              <p>Starring:&nbsp;<span id="mmActors">Movie stars go here</span></p>
+              <p>Genre:&nbsp;<span id="mmGenre">Movie genres go here</span></p>
+              <p id="mmImage"></p>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default btn-success" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Modal window -->
     </div>
     <!-- End of main container -->
 

@@ -9,7 +9,7 @@ window.addEventListener('beforeunload', function(e) {
   })
 });
 
-// // Return an element index in scope and expand detailed popup
+// // Return an element index in scope and expand detailed popup/modal
 
 function expand (index) {
   let id = index.getAttribute("href").toString();
@@ -21,7 +21,13 @@ function expand (index) {
   return false;
 };
 
-// //
+// // Carousel pause / cycle
 
+$('#MovieModal').on('shown.bs.modal', function () {
+    $('#MovieCarousel').carousel('pause');
+});
+$('#MovieModal').on('hidden.bs.modal', function () {
+    $('#MovieCarousel').carousel('cycle');
+});
 
 // EOF

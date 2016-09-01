@@ -10,23 +10,11 @@ export function carouselBuilder(obj, counter) {
          + '"><div class="col-xs-12 col-sm-4 col-md-2">'
          + '<a href="#' + i + '" onclick="expand(this);"><img src="' + obj[i].images[0].url
          + '" class="img-responsive" alt="' + obj[i].images[0].type
-         + '" title="' + obj[i].title + '"></a></div></div>'
+         + '" title="' + obj[i].title + '"></a>'
+         + '<div class="itemcaption"><h3>' + obj[i].title
+         + '</h3></div></div></div>'
          + '<!-- End of ' + i + ' slide tag -->';
   }
-
-/*
-Temporary to store scheme
-
-
-    <a href="#"><img src="{{item.images[0].url}}" alt="{{item.images[0].type}}" class="img-responsive"></a>
-  </div>
-  <div class="carousel-caption">
-    <h3>{{item.title}}</h3>
-    <span>And what it is: {{$index}}</span>
-  </div>
-</div>
-
-*/
 
   // Apply scheme to carousel inner element
   $('#InnerCarousel').append(tags);
@@ -34,7 +22,7 @@ Temporary to store scheme
   // Make sure DOM loaded && start carousel
   $(document).ready(function(){
     // Set interval
-    $('#MovieCarousel').carousel({ interval: 15000 });
+    $('#MovieCarousel').carousel({ interval: 5000 });
     // Set multiple slides scrolling
     $('#InnerCarousel .item').each(function(){
       var itemToClone = $(this);
