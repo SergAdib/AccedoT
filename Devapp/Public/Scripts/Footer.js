@@ -28,6 +28,8 @@ $('#MovieModal').on('shown.bs.modal', function () {
 });
 $('#MovieModal').on('hidden.bs.modal', function () {
     $('#MovieCarousel').carousel('cycle');
+    $("#mmVideo").unbind('pause');
+    $("#mmVideo").unbind('ended');
 });
 
 // EOF

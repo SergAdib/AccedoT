@@ -75,6 +75,7 @@ export function historyController($scope, $http, $rootScope) {
   // Events for history
 
   $rootScope.$on('movieRefreshed', function(event, args) {
+    console.log('Emited from modal', args);
     $scope.addWatched(args[0], args[1], args[2]);
   });
 

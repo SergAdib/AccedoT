@@ -16,27 +16,29 @@ export function carouselController($scope) {
     $("#mmGenre").text(formGenre(obj.categories));
     $("#mmImage").empty().append(formPics(obj.images));
     $("#mmVideo").empty().append(formVideo(obj.contents));
-    adjustVideo(obj.contents[0].width, obj.contents[0].height, obj.images[0].url);
+    adjustVideo(obj.id, obj.title, obj.contents[0].width, obj.contents[0].height, obj.images[0].url);
 
     $('#MovieModal').modal();
 
     $("#mmVideo").bind({
       pause : function() {
-        $scope.$emit('movieRefreshed', [obj.id, obj.title, this.currentTime]);
-        console.log('emit after');
+        var time = this.currentTime;
+        $scope.$emit('movieRefreshed', [obj.id, obj.title, time]);
+        console.log('emit after pause');
       },
       ended : function() {
         $scope.$emit('movieRefreshed', [obj.id, obj.title, 0]);
         $("#MovieModal").modal('hide');
-        console.log('emit after');
+        console.log('emit after ended');
       }
     });
 
   };
 
   /* @TODO
-  save movie in history
-
+  2. update modal window depending on video width
+  3. make a history popup with video lunch
+  4. decorate frontend
   */
 
   function formRating(arr) {
@@ -86,14 +88,27 @@ export function carouselController($scope) {
     return tags;
   };
 
-  function adjustVideo(x, y, poster) {
-    let width  = x || 320,
-        height = y || 180,
-        slide  = poster || "ajax-loader.gif";
-    var video  = document.getElementById("mmVideo");
+  function adjustVideo(id, title, x, y, poster) {
+    let width     = x || 320,
+        height    = y || 180,
+        item      = id,
+        name      = title,
+        slide     = poster || "ajax-loader.gif",
+        instance  = {},
+        time      = 0;
+    var video     = document.getElementById("mmVideo");
+    var history   = Lockr.get('storedHistory');
+    if (history) {
+      instance = history.watchedMovies.find(x => ((x.id == item) && (x.title == name)));
+      if (instance) {
+        time = instance.stopTime;
+      }
+    }
+    console.log('stored time: '+time);
     video.width  = width;
     video.height = height;
     video.poster = slide;
+    video.currentTime = time;
   };
 
 }
