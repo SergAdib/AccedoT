@@ -174,7 +174,7 @@ export function historyController($scope, $http, $rootScope) {
           status += formTime(item.stopTime);
         }
         var index = $scope.list.findIndex(x => (x.id == item.id && x.title == item.title));
-        tags += '</span><span class="dropstatus">' + status + '</span><span class="btn btn-link" ng-click="expand(';
+        tags += '</span><span class="dropstatus">' + status + '</span><span class="btn btn-link" onclick="popupme(';
         tags += index + ');">' + again + '</span></div></li>';
         $scope.lastVisit = formDate($scope.history.updatedDate);
       };

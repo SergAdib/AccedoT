@@ -23,6 +23,16 @@ function expand(index) {
   return false;
 };
 
+// // Expand detailed popup/modal from history dropdowns
+
+function popupme(index) {
+  var scope = angular.element(document.getElementById("MovieCarousel")).scope();
+  scope.$apply(function () {
+    scope.expand(index);
+  });
+  return false;
+};
+
 // // Carousel pause / cycle
 
 $('#MovieModal').on('shown.bs.modal', function () {
