@@ -15,6 +15,8 @@ export function historyController($scope, $http, $rootScope) {
   $scope.history = {};
   $scope.gotHistory = {};
   $scope.storedHistory = {};
+  $scope.dropHistory = [];
+  $scope.lastVisit = new Date();
 
   $scope.initHistory = function() {
     $scope.getStoredHistory();
@@ -65,6 +67,7 @@ export function historyController($scope, $http, $rootScope) {
       .success(function(data) {
         $scope.deleteStoredHistory();
         $scope.gotHistory = {};
+        $scope.refreshDropping();
         console.log('History deleted in DB: ' + data);
       })
       .error(function(data) {
@@ -98,6 +101,7 @@ export function historyController($scope, $http, $rootScope) {
     $scope.history.watchedMovies.push(watched);
     $scope.saveStoredHistory();
     console.log("Movie array +1");
+    $scope.refreshDropping();
   };
 
   $scope.formHistory = function() {
@@ -121,6 +125,7 @@ export function historyController($scope, $http, $rootScope) {
     }
   console.log("Obj created: ");
   console.log($scope.history);
+  $scope.refreshDropping();
   };
 
   $scope.saveStoredHistory = function() {
@@ -146,6 +151,71 @@ export function historyController($scope, $http, $rootScope) {
     $scope.storedHistory = {};
     console.log("History deleted");
   };
+
+  $scope.refreshDropping = function() {
+    $scope.dropHistory = $scope.history.watchedMovies;
+    console.log('Watched: ', $scope.dropHistory);
+  };
+
+  $scope.formDropHistory = function() {
+    var container = $("#dropHistoryContent");
+    let tags = '';
+    if ($scope.dropHistory && $scope.dropHistory.length >0 ) {
+      for (var item of $scope.dropHistory) {
+        let status = 'and stopped at ';
+        let again  = 'Continue watching';
+        tags += '<li><div role="separator" class="divider"></div>';
+        tags += '<div><span class="droptitle">' + item.title;
+        tags += '</span><span class="droptime">was saved: ' + formDate(item.watchDate);
+        if (item.stopTime < 1) {
+          status = "watched in full";
+          again  = "Watch again";
+        } else {
+          status += formTime(item.stopTime);
+        }
+        var index = $scope.list.findIndex(x => (x.id == item.id && x.title == item.title));
+        tags += '</span><span class="dropstatus">' + status + '</span><span class="btn btn-link" ng-click="expand(';
+        tags += index + ');">' + again + '</span></div></li>';
+        $scope.lastVisit = formDate($scope.history.updatedDate);
+      };
+    } else {
+      tags += '<li><div role="separator" class="divider"></div>No history found</li>';
+      $scope.lastVisit = "Never";
+    }
+    container.empty().append(tags);
+  };
+
+  function formDate(date) {
+    let d    = new Date(date);
+    let st   = '';
+    st += d.getHours() + ':';
+    st += d.getMinutes() + ':';
+    st += d.getSeconds() + ' - ';
+    st += d.getDate() + '/';
+    st += d.getMonth() + '/';
+    st += d.getFullYear();
+    return st;
+  };
+
+  function formTime(time) {
+    let st = '';
+    let h  = 0,
+        m  = 0,
+        s  = 0;
+    if (time > 3600) {
+      h = Math.floor(time / 3600);
+      time -= (3600 * h);
+      st += h + 'h ';
+    }
+    if (time > 60)   {
+      m = Math.floor(time / 60);
+      time -= (60 * m);
+      st += m + 'm ';
+    }
+    s = Math.floor(time);
+    st += s + 's ';
+    return st;
+  }
 
 }
 // @End of history Controller

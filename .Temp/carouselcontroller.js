@@ -25,6 +25,7 @@ function carouselController($scope) {
     adjustVideo(obj.id, obj.title, obj.contents[0].width, obj.contents[0].height, obj.images[0].url);
 
     $('#MovieModal').modal();
+    setModalWidth(obj.contents[0].width);
 
     $("#mmVideo").bind({
       pause: function pause() {
@@ -41,11 +42,27 @@ function carouselController($scope) {
   };
 
   /* @TODO
-  1. check movie in history and put a time if stored (adjustvideo)
-  2. update modal window depending on video width
   3. make a history popup with video lunch
   4. decorate frontend
   */
+
+  function setModalWidth(x) {
+    var container = document.getElementById("MovieModalContent");
+    var video = document.getElementById("mmVideo");
+    var scape = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (scape - 60 < x) {
+      var w = x; // original width
+      var h = video.height;
+      var z = 0; // new height in % from new width
+      x = scape - 120;
+      z = Math.round(x * h / w);
+      video.width = x;
+      video.height = z;
+    }
+    var percent = Math.round((x + 60) / scape * 100);
+    var width = percent.toString() + "%";
+    container.style.width = width;
+  }
 
   function formRating(arr) {
     var st = '';
@@ -246,7 +263,6 @@ function carouselController($scope) {
         time = instance.stopTime;
       }
     }
-    console.log('stored time: ' + time);
     video.width = width;
     video.height = height;
     video.poster = slide;

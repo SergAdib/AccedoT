@@ -35,9 +35,38 @@
 
       <!-- Header / History container -->
       <div id="historywrapper" ng-controller="historyController" ng-init="initHistory()">
-        <span>History</span>
-        <span class="btn btn-success" ng-click="deleteHistory();">Delete History</span>
-        <p>*</p>
+
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/Images/AccedoLogo.png">
+              </a>
+              <p class="navbar-text">Custom test work sample :)</p>
+            </div>
+            <div class="nav navbar-nav navbar-right">
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle btn-success" type="button" id="dropdownHistory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="formDropHistory();">
+                  Watching History
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownHistory">
+                  <li>
+                    History last time saved:
+                    <span>{{lastVisit}}</span>
+                  </li>
+                  <li class="btn btn-warning" ng-click="deleteHistory();">Clear History</li>
+
+                  <div id="dropHistoryContent" style="height: 300px; width: 250px; overflow-y: auto; background: #dadada;">
+                    <!-- Content for History dropdown list -->
+                  </div>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+
       </div>
       <!-- End of Header / History container -->
 
@@ -68,19 +97,17 @@
       </div>
       <!-- End of carousel container -->
 
+      <div id="Content">
+        <p>Some useful content could be here...</p>
+      </div>
 
-
-
-
-
-
-
-
-
+      <footer>
+        <p>Footer</p>
+      </footer>
 
       <!-- Modal window for movie details && screen -->
       <div class="modal fade" id="MovieModal" tabindex="-1" role="dialog" aria-labelledby="MovieModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" id="MovieModalContent">
           <div class="modal-content">
 
             <div class="modal-header">
