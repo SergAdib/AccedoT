@@ -1,0 +1,51 @@
+/* 1 */
+{
+    "_id" : ObjectId("57cab34d7d61393b872cffab"),
+    "session_id" : "isn3qqmf5910",
+    "updatedDate" : ISODate("2016-09-03T11:42:34.971Z"),
+    "creationDate" : ISODate("2016-09-03T11:24:27.591Z"),
+    "watchedMovies" : [
+        {
+            "id" : "alien-3",
+            "title" : "Alien 3",
+            "_id" : ObjectId("57cab34d258b30b659636486"),
+            "watchDate" : ISODate("2016-09-03T11:24:57.965Z"),
+            "stopTime" : 1391.208635
+        },
+        {
+            "id" : "a-walk-among-the-tombstones",
+            "title" : "A Walk Among the Tombstones",
+            "_id" : ObjectId("57cab41c258b30b65963648f"),
+            "watchDate" : ISODate("2016-09-03T11:26:35.041Z"),
+            "stopTime" : 898.722002
+        },
+        {
+            "id" : "21-jump-street",
+            "title" : "21 Jump Street",
+            "_id" : ObjectId("57cab41c258b30b65963648e"),
+            "watchDate" : ISODate("2016-09-03T11:26:46.411Z"),
+            "stopTime" : 1265.558672
+        },
+        {
+            "id" : "28-days-later",
+            "title" : "28 Days Later...",
+            "_id" : ObjectId("57cab41c258b30b65963648d"),
+            "watchDate" : ISODate("2016-09-03T11:26:57.632Z"),
+            "stopTime" : 1742.451198
+        },
+        {
+            "id" : "300",
+            "title" : "300",
+            "_id" : ObjectId("57cab41c258b30b65963648c"),
+            "watchDate" : ISODate("2016-09-03T11:27:36.892Z"),
+            "stopTime" : 0
+        },
+        {
+            "id" : "addicted",
+            "title" : "Addicted",
+            "_id" : ObjectId("57cab5c1258b30b659636491"),
+            "watchDate" : ISODate("2016-09-03T11:30:27.502Z"),
+            "stopTime" : 1052.942308
+        }
+    ]
+}

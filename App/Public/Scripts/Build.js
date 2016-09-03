@@ -32,7 +32,7 @@ function carouselBuilder(obj, counter) {
     tags += '<div class="item ' + obj[i].active + '"><div class="col-xs-12 col-sm-4 col-md-2">' + '<a href="#' + i + '" onclick="expand(this);"><img src="' + obj[i].images[0].url + '" class="img-responsive" alt="' + obj[i].images[0].type + '" title="' + obj[i].title + '"></a>' + '<div class="itemcaption"><h3>' + obj[i].title + '</h3></div></div></div>' + '<!-- End of ' + i + ' slide tag -->';
   }
 
-  // Apply scheme to carousel inner element
+  // Apply carousel items scheme to carousel inner element
   $('#InnerCarousel').append(tags);
 
   // Make sure DOM loaded && start carousel
@@ -65,10 +65,10 @@ exports.carouselController = carouselController;
 
 function carouselController($scope) {
 
+  // Open movie instance in modal window with player
   $scope.expand = function (id) {
     id = id - 0;
     var obj = $scope.list[id];
-    console.log(obj); // REMOVE ME :)
     $("#MovieModalLabel").text(obj.title);
     $("#mmDescription").text(obj.description);
     $("#mmDate").text(new Date(obj.publishedDate).toDateString());
@@ -88,21 +88,18 @@ function carouselController($scope) {
       pause: function pause() {
         var time = this.currentTime;
         $scope.$emit('movieRefreshed', [obj.id, obj.title, time]);
-        console.log('emit after pause');
+        //console.log('Player paused, stop time stored in history');
       },
       ended: function ended() {
         $scope.$emit('movieRefreshed', [obj.id, obj.title, 0]);
         $("#MovieModal").modal('hide');
-        console.log('emit after ended');
+        //console.log('Player closed, movie ended, stored in history');
       }
     });
   };
 
-  /* @TODO
-  3. make a history popup with video lunch
-  4. decorate frontend
-  */
-
+  // Helper functions for movie detailed popup
+  // // Adjust modal window width && player width if necessary
   function setModalWidth(x) {
     var container = document.getElementById("MovieModalContent");
     var video = document.getElementById("mmVideo");
@@ -121,6 +118,7 @@ function carouselController($scope) {
     container.style.width = width;
   }
 
+  // // Helper functions for movie detailed view, ratings
   function formRating(arr) {
     var st = '';
     var _iteratorNormalCompletion = true;
@@ -151,6 +149,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, crew other than actors
   function formCrew(arr) {
     var st = '';
     var _iteratorNormalCompletion2 = true;
@@ -182,6 +181,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, actors
   function formStars(arr) {
     var st = '';
     var _iteratorNormalCompletion3 = true;
@@ -213,6 +213,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, categories
   function formGenre(arr) {
     var st = '';
     var _iteratorNormalCompletion4 = true;
@@ -243,6 +244,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, related images
   function formPics(arr) {
     var tags = '';
     var _iteratorNormalCompletion5 = true;
@@ -252,7 +254,7 @@ function carouselController($scope) {
     try {
       for (var _iterator5 = arr[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
         var obj = _step5.value;
-        tags += '<img src="' + obj.url + '" class="img-responsive" alt="' + obj.type + '" title="' + obj.type + '">';
+        tags += '<img src="' + obj.url + '" class="img-responsive img-thumbnail" alt="' + obj.type + '" title="' + obj.type + '">';
       }
     } catch (err) {
       _didIteratorError5 = true;
@@ -272,6 +274,7 @@ function carouselController($scope) {
     return tags;
   };
 
+  // // Form video tag with sources, could be more than one
   function formVideo(arr) {
     var tags = '';
     var _iteratorNormalCompletion6 = true;
@@ -302,6 +305,7 @@ function carouselController($scope) {
     return tags;
   };
 
+  // // Adjust player settings and restore stop time if previously watched
   function adjustVideo(id, title, x, y, poster) {
     var width = x || 320,
         height = y || 180,
@@ -362,7 +366,6 @@ function historyController($scope, $http, $rootScope) {
     } else {
       $scope.saveStoredHistory();
     }
-    console.log("History successfully initiated");
   };
 
   // AJAX operations with server/DB on history Collection
@@ -386,9 +389,9 @@ function historyController($scope, $http, $rootScope) {
       $scope.history.updatedDate = new Date();
       $scope.saveStoredHistory();
       $http.post('/api/history', $scope.history).success(function (data) {
-        console.log('History updated in DB: ' + data);
+        console.log('History updated in DB');
       }).error(function (data) {
-        console.log('Error updating DB history: ' + data);
+        console.log('Error while updating DB history: ' + data);
       });
     }
   };
@@ -409,19 +412,19 @@ function historyController($scope, $http, $rootScope) {
   // Events for history
 
   $rootScope.$on('movieRefreshed', function (event, args) {
-    console.log('Emited from modal', args);
     $scope.addWatched(args[0], args[1], args[2]);
   });
 
   $scope.addWatched = function (id, title, time) {
     var index = -1;
     var watched = {};
+    var msg = '';
     watched.id = id;
     watched.title = title;
     watched.stopTime = time;
     watched.watchDate = new Date();
     if (!$scope.history.watchedMovies) {
-      console.log("No history found, probably was cleared by user");
+      msg += "No history found, probably was cleared by user / ";
       $scope.initHistory();
     }
     index = $scope.history.watchedMovies.findIndex(function (x) {
@@ -429,35 +432,36 @@ function historyController($scope, $http, $rootScope) {
     });
     if (index != -1) {
       $scope.history.watchedMovies.splice(index, 1);
-      console.log("Movie entry refreshed");
+      msg += "Stored movie refreshed / ";
     }
     $scope.history.watchedMovies.push(watched);
+    msg += "Movie added to array";
     $scope.saveStoredHistory();
-    console.log("Movie array +1");
+    console.log(msg);
     $scope.refreshDropping();
   };
 
   $scope.formHistory = function () {
+    var msg = '';
     if ($scope.storedHistory.session_id) {
       if (!$scope.gotHistory) {
         $scope.history = $scope.storedHistory;
-        console.log("History succesfully created from stored");
+        msg = "History succesfully restored from local storage";
       } else if ($scope.storedHistory.updatedDate > $scope.gotHistory.updatedDate) {
         $scope.history = $scope.storedHistory;
-        console.log("History succesfully created from stored");
+        msg = "History succesfully restored from local storage";
       } else {
         $scope.history = $scope.gotHistory;
-        console.log("History succesfully created from stored in DB");
+        msg = "History succesfully restored from DB";
       }
     } else {
       $scope.history.watchedMovies = [];
       $scope.history.creationDate = new Date();
       $scope.history.updatedDate = new Date();
       $scope.history.session_id = _idmaker.myID.make();
-      console.log("History succesfully created");
+      msg = "History succesfully created";
     }
-    console.log("Obj created: ");
-    console.log($scope.history);
+    console.log(msg, "/ Session id: ", $scope.history.session_id);
     $scope.refreshDropping();
   };
 
@@ -466,27 +470,30 @@ function historyController($scope, $http, $rootScope) {
       $scope.formHistory();
     };
     Lockr.set('storedHistory', $scope.history);
-    console.log("History succesfully stored");
+    console.log("History succesfully stored in local storage");
   };
 
   $scope.getStoredHistory = function () {
+    var msg = '';
     $scope.storedHistory = Lockr.get('storedHistory');
     if (!$scope.storedHistory) {
       $scope.storedHistory = {};
-      console.log("No stored history found");
-    } else console.log("History retrieved");
+      msg = "No stored history found";
+    } else {
+      msg = "History retrieved from local storage";
+    }
+    console.log(msg);
   };
 
   $scope.deleteStoredHistory = function () {
     Lockr.rm('storedHistory');
     $scope.history = {};
     $scope.storedHistory = {};
-    console.log("History deleted");
+    console.log("Current history cleared");
   };
 
   $scope.refreshDropping = function () {
     $scope.dropHistory = $scope.history.watchedMovies;
-    console.log('Watched: ', $scope.dropHistory);
   };
 
   $scope.formDropHistory = function () {
@@ -501,13 +508,13 @@ function historyController($scope, $http, $rootScope) {
         for (var _iterator = $scope.dropHistory[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var item = _step.value;
 
-          var status = 'and stopped at ';
+          var status = ' and stopped at ';
           var again = 'Continue watching';
           tags += '<li><div role="separator" class="divider"></div>';
           tags += '<div><span class="droptitle">' + item.title;
-          tags += '</span><span class="droptime">was saved: ' + formDate(item.watchDate);
+          tags += '</span><span class="droptime"> was saved: ' + formDate(item.watchDate);
           if (item.stopTime < 1) {
-            status = "watched in full";
+            status = " watched in full";
             again = "Watch again";
           } else {
             status += formTime(item.stopTime);
@@ -542,6 +549,7 @@ function historyController($scope, $http, $rootScope) {
     container.empty().append(tags);
   };
 
+  // Helper function to represent Date/Time
   function formDate(date) {
     var d = new Date(date);
     var st = '';
@@ -554,6 +562,7 @@ function historyController($scope, $http, $rootScope) {
     return st;
   };
 
+  // Helper function to represent watched time in user readable form
   function formTime(time) {
     var st = '';
     var h = 0,
@@ -596,9 +605,11 @@ var myID = exports.myID = function () {
             return id;
         },
         reset: function reset() {
+            // optional
             counter = 0;
         },
         set: function set(int) {
+            // optional
             if (Number(int)) {
                 counter = parseInt(int);
             } else {
@@ -641,7 +652,7 @@ function listController($scope, $http) {
       $scope.list[$scope.medium].active = "active";
       // EOS
       (0, _carouselbuilder.carouselBuilder)($scope.list, $scope.count);
-      console.log("Movie list downloaded from DB, carousel initiated");
+      console.log("Movie list downloaded, carousel initiated");
     }
   }).error(function (data) {
     console.log('Error: ' + data);

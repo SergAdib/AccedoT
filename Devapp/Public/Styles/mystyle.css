@@ -2,6 +2,14 @@ body {
     font-family: 'Helvetica';
     color: red;
     font-size:24px;
+    padding-bottom: 70px;
+}
+
+#dropHistoryContent {
+  height: 300px;
+  width: 250px;
+  overflow-y: auto;
+  background: #dadada;
 }
 
 

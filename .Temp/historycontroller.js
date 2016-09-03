@@ -31,7 +31,6 @@ function historyController($scope, $http, $rootScope) {
     } else {
       $scope.saveStoredHistory();
     }
-    console.log("History successfully initiated");
   };
 
   // AJAX operations with server/DB on history Collection
@@ -55,9 +54,9 @@ function historyController($scope, $http, $rootScope) {
       $scope.history.updatedDate = new Date();
       $scope.saveStoredHistory();
       $http.post('/api/history', $scope.history).success(function (data) {
-        console.log('History updated in DB: ' + data);
+        console.log('History updated in DB');
       }).error(function (data) {
-        console.log('Error updating DB history: ' + data);
+        console.log('Error while updating DB history: ' + data);
       });
     }
   };
@@ -78,19 +77,19 @@ function historyController($scope, $http, $rootScope) {
   // Events for history
 
   $rootScope.$on('movieRefreshed', function (event, args) {
-    console.log('Emited from modal', args);
     $scope.addWatched(args[0], args[1], args[2]);
   });
 
   $scope.addWatched = function (id, title, time) {
     var index = -1;
     var watched = {};
+    var msg = '';
     watched.id = id;
     watched.title = title;
     watched.stopTime = time;
     watched.watchDate = new Date();
     if (!$scope.history.watchedMovies) {
-      console.log("No history found, probably was cleared by user");
+      msg += "No history found, probably was cleared by user / ";
       $scope.initHistory();
     }
     index = $scope.history.watchedMovies.findIndex(function (x) {
@@ -98,35 +97,36 @@ function historyController($scope, $http, $rootScope) {
     });
     if (index != -1) {
       $scope.history.watchedMovies.splice(index, 1);
-      console.log("Movie entry refreshed");
+      msg += "Stored movie refreshed / ";
     }
     $scope.history.watchedMovies.push(watched);
+    msg += "Movie added to array";
     $scope.saveStoredHistory();
-    console.log("Movie array +1");
+    console.log(msg);
     $scope.refreshDropping();
   };
 
   $scope.formHistory = function () {
+    var msg = '';
     if ($scope.storedHistory.session_id) {
       if (!$scope.gotHistory) {
         $scope.history = $scope.storedHistory;
-        console.log("History succesfully created from stored");
+        msg = "History succesfully restored from local storage";
       } else if ($scope.storedHistory.updatedDate > $scope.gotHistory.updatedDate) {
         $scope.history = $scope.storedHistory;
-        console.log("History succesfully created from stored");
+        msg = "History succesfully restored from local storage";
       } else {
         $scope.history = $scope.gotHistory;
-        console.log("History succesfully created from stored in DB");
+        msg = "History succesfully restored from DB";
       }
     } else {
       $scope.history.watchedMovies = [];
       $scope.history.creationDate = new Date();
       $scope.history.updatedDate = new Date();
       $scope.history.session_id = _idmaker.myID.make();
-      console.log("History succesfully created");
+      msg = "History succesfully created";
     }
-    console.log("Obj created: ");
-    console.log($scope.history);
+    console.log(msg, "/ Session id: ", $scope.history.session_id);
     $scope.refreshDropping();
   };
 
@@ -135,27 +135,30 @@ function historyController($scope, $http, $rootScope) {
       $scope.formHistory();
     };
     Lockr.set('storedHistory', $scope.history);
-    console.log("History succesfully stored");
+    console.log("History succesfully stored in local storage");
   };
 
   $scope.getStoredHistory = function () {
+    var msg = '';
     $scope.storedHistory = Lockr.get('storedHistory');
     if (!$scope.storedHistory) {
       $scope.storedHistory = {};
-      console.log("No stored history found");
-    } else console.log("History retrieved");
+      msg = "No stored history found";
+    } else {
+      msg = "History retrieved from local storage";
+    }
+    console.log(msg);
   };
 
   $scope.deleteStoredHistory = function () {
     Lockr.rm('storedHistory');
     $scope.history = {};
     $scope.storedHistory = {};
-    console.log("History deleted");
+    console.log("Current history cleared");
   };
 
   $scope.refreshDropping = function () {
     $scope.dropHistory = $scope.history.watchedMovies;
-    console.log('Watched: ', $scope.dropHistory);
   };
 
   $scope.formDropHistory = function () {
@@ -170,13 +173,13 @@ function historyController($scope, $http, $rootScope) {
         for (var _iterator = $scope.dropHistory[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var item = _step.value;
 
-          var status = 'and stopped at ';
+          var status = ' and stopped at ';
           var again = 'Continue watching';
           tags += '<li><div role="separator" class="divider"></div>';
           tags += '<div><span class="droptitle">' + item.title;
-          tags += '</span><span class="droptime">was saved: ' + formDate(item.watchDate);
+          tags += '</span><span class="droptime"> was saved: ' + formDate(item.watchDate);
           if (item.stopTime < 1) {
-            status = "watched in full";
+            status = " watched in full";
             again = "Watch again";
           } else {
             status += formTime(item.stopTime);
@@ -211,6 +214,7 @@ function historyController($scope, $http, $rootScope) {
     container.empty().append(tags);
   };
 
+  // Helper function to represent Date/Time
   function formDate(date) {
     var d = new Date(date);
     var st = '';
@@ -223,6 +227,7 @@ function historyController($scope, $http, $rootScope) {
     return st;
   };
 
+  // Helper function to represent watched time in user readable form
   function formTime(time) {
     var st = '';
     var h = 0,

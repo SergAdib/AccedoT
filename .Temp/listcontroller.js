@@ -29,7 +29,7 @@ function listController($scope, $http) {
       $scope.list[$scope.medium].active = "active";
       // EOS
       (0, _carouselbuilder.carouselBuilder)($scope.list, $scope.count);
-      console.log("Movie list downloaded from DB, carousel initiated");
+      console.log("Movie list downloaded, carousel initiated");
     }
   }).error(function (data) {
     console.log('Error: ' + data);

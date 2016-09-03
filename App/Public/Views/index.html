@@ -42,7 +42,8 @@
             <div class="nav navbar-nav navbar-right">
               <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle btn-success" type="button" id="dropdownHistory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="formDropHistory();">
-                  Watching History
+                  <span class="badge">{{dropHistory.length}}</span>
+                  &nbsp;&nbsp;Watching History&nbsp;&nbsp;
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownHistory">
@@ -52,7 +53,7 @@
                   </li>
                   <li class="btn btn-warning" ng-click="deleteHistory();">Clear History</li>
 
-                  <div id="dropHistoryContent" style="height: 300px; width: 250px; overflow-y: auto; background: #dadada">
+                  <div id="dropHistoryContent">
                     <!-- Content for History dropdown list -->
                   </div>
 
@@ -65,11 +66,11 @@
       </div>
       <!-- End of Header / History container -->
 
-      <!-- Carousel container -->
+      <!-- Carousel / Movies list container -->
       <div class="row">
         <div class="col-md-12">
           <div class="carousel carousel-extended slide" id="MovieCarousel" ng-controller="carouselController">
-            <!-- Indicators (optional) -->
+            <!-- Indicators (not necessary, optional) -->
             <ol id="IndicateCarousel" class="carousel-indicators">
               <li data-target="#MovieCarousel" ng-repeat="item in list" data-slide-to="{{$index}}" class="{{item.active}}"></li>
             </ol>
@@ -92,15 +93,23 @@
       </div>
       <!-- End of carousel container -->
 
+      <!-- Content section -->
       <div id="Content">
         <p>Some useful content could be here...</p>
       </div>
+      <!-- End of content section -->
 
-      <footer>
-        <p>Footer</p>
+      <!-- Footer -->
+      <footer class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+          <p><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>Test sample of VoD app</p>
+          <p class="navbar-right"><a href="https://github.com/SergAdib/AccedoT">GitHub repository</a></p>
+          <p class="navbar-left">&copy; 2016</p>
+        </div>
       </footer>
+      <!-- End of footer -->
 
-      <!-- Modal window for movie details && screen -->
+      <!-- Modal window for movie details && player -->
       <div class="modal fade" id="MovieModal" tabindex="-1" role="dialog" aria-labelledby="MovieModalLabel">
         <div class="modal-dialog" role="document" id="MovieModalContent">
           <div class="modal-content">
@@ -135,6 +144,7 @@
         </div>
       </div>
       <!-- End of Modal window -->
+
     </div>
     <!-- End of main container -->
 

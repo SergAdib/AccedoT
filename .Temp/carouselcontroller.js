@@ -8,10 +8,10 @@ exports.carouselController = carouselController;
 
 function carouselController($scope) {
 
+  // Open movie instance in modal window with player
   $scope.expand = function (id) {
     id = id - 0;
     var obj = $scope.list[id];
-    console.log(obj); // REMOVE ME :)
     $("#MovieModalLabel").text(obj.title);
     $("#mmDescription").text(obj.description);
     $("#mmDate").text(new Date(obj.publishedDate).toDateString());
@@ -31,21 +31,18 @@ function carouselController($scope) {
       pause: function pause() {
         var time = this.currentTime;
         $scope.$emit('movieRefreshed', [obj.id, obj.title, time]);
-        console.log('emit after pause');
+        //console.log('Player paused, stop time stored in history');
       },
       ended: function ended() {
         $scope.$emit('movieRefreshed', [obj.id, obj.title, 0]);
         $("#MovieModal").modal('hide');
-        console.log('emit after ended');
+        //console.log('Player closed, movie ended, stored in history');
       }
     });
   };
 
-  /* @TODO
-  3. make a history popup with video lunch
-  4. decorate frontend
-  */
-
+  // Helper functions for movie detailed popup
+  // // Adjust modal window width && player width if necessary
   function setModalWidth(x) {
     var container = document.getElementById("MovieModalContent");
     var video = document.getElementById("mmVideo");
@@ -64,6 +61,7 @@ function carouselController($scope) {
     container.style.width = width;
   }
 
+  // // Helper functions for movie detailed view, ratings
   function formRating(arr) {
     var st = '';
     var _iteratorNormalCompletion = true;
@@ -94,6 +92,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, crew other than actors
   function formCrew(arr) {
     var st = '';
     var _iteratorNormalCompletion2 = true;
@@ -125,6 +124,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, actors
   function formStars(arr) {
     var st = '';
     var _iteratorNormalCompletion3 = true;
@@ -156,6 +156,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, categories
   function formGenre(arr) {
     var st = '';
     var _iteratorNormalCompletion4 = true;
@@ -186,6 +187,7 @@ function carouselController($scope) {
     return st;
   };
 
+  // // Helper functions for movie detailed view, related images
   function formPics(arr) {
     var tags = '';
     var _iteratorNormalCompletion5 = true;
@@ -195,7 +197,7 @@ function carouselController($scope) {
     try {
       for (var _iterator5 = arr[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
         var obj = _step5.value;
-        tags += '<img src="' + obj.url + '" class="img-responsive" alt="' + obj.type + '" title="' + obj.type + '">';
+        tags += '<img src="' + obj.url + '" class="img-responsive img-thumbnail" alt="' + obj.type + '" title="' + obj.type + '">';
       }
     } catch (err) {
       _didIteratorError5 = true;
@@ -215,6 +217,7 @@ function carouselController($scope) {
     return tags;
   };
 
+  // // Form video tag with sources, could be more than one
   function formVideo(arr) {
     var tags = '';
     var _iteratorNormalCompletion6 = true;
@@ -245,6 +248,7 @@ function carouselController($scope) {
     return tags;
   };
 
+  // // Adjust player settings and restore stop time if previously watched
   function adjustVideo(id, title, x, y, poster) {
     var width = x || 320,
         height = y || 180,

@@ -8,7 +8,4 @@ Movies.controller('listController', listController);
 Movies.controller('historyController', historyController);
 Movies.controller('carouselController', carouselController);
 
-
-
-
 // @ End of main module

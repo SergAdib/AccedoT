@@ -16,7 +16,7 @@ export function carouselBuilder(obj, counter) {
          + '<!-- End of ' + i + ' slide tag -->';
   }
 
-  // Apply scheme to carousel inner element
+  // Apply carousel items scheme to carousel inner element
   $('#InnerCarousel').append(tags);
 
   // Make sure DOM loaded && start carousel

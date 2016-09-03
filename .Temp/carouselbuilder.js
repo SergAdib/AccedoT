@@ -15,7 +15,7 @@ function carouselBuilder(obj, counter) {
     tags += '<div class="item ' + obj[i].active + '"><div class="col-xs-12 col-sm-4 col-md-2">' + '<a href="#' + i + '" onclick="expand(this);"><img src="' + obj[i].images[0].url + '" class="img-responsive" alt="' + obj[i].images[0].type + '" title="' + obj[i].title + '"></a>' + '<div class="itemcaption"><h3>' + obj[i].title + '</h3></div></div></div>' + '<!-- End of ' + i + ' slide tag -->';
   }
 
-  // Apply scheme to carousel inner element
+  // Apply carousel items scheme to carousel inner element
   $('#InnerCarousel').append(tags);
 
   // Make sure DOM loaded && start carousel

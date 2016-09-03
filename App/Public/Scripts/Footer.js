@@ -12,7 +12,6 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 // // Return an element index in scope and expand detailed popup/modal
-
 function expand(index) {
   var id = index.getAttribute("href").toString();
   id = id.slice(1);
@@ -24,7 +23,6 @@ function expand(index) {
 };
 
 // // Expand detailed popup/modal from history dropdowns
-
 function popupme(index) {
   var scope = angular.element(document.getElementById("MovieCarousel")).scope();
   scope.$apply(function () {
@@ -33,8 +31,7 @@ function popupme(index) {
   return false;
 };
 
-// // Carousel pause / cycle
-
+// // Carousel pause / cycle upon modal events
 $('#MovieModal').on('shown.bs.modal', function () {
   $('#MovieCarousel').carousel('pause');
 });

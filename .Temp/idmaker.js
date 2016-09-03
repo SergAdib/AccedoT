@@ -17,9 +17,11 @@ var myID = exports.myID = function () {
             return id;
         },
         reset: function reset() {
+            // optional
             counter = 0;
         },
         set: function set(int) {
+            // optional
             if (Number(int)) {
                 counter = parseInt(int);
             } else {

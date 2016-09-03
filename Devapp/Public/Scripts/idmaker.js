@@ -11,10 +11,10 @@ export var myID = (function() {
             _makeID();
             return id;
         },
-        reset : function() {
+        reset : function() {  // optional
             counter = 0;
         },
-        set : function(int) {
+        set : function(int) { // optional
             if (Number(int)) {
                 counter = parseInt(int);
             } else {
