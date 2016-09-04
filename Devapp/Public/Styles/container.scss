@@ -1,0 +1,138 @@
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif|Titillium+Web);
+
+body
+  {
+  background: url('/Images/movielarge_wp.jpg') no-repeat center border-box fixed;
+  //background: url('/Images/bubbles_wp.jpg') no-repeat center border-box fixed;
+  background-size: cover;
+  padding-bottom: 60px;
+  }
+
+#main
+  {
+    font-family: 'Titillium Web', sans-serif;
+    //font-family: 'Bree Serif', serif;
+
+  div.row
+    {
+      background: url('/Images/blackframe.jpg') repeat-x border-box;
+      background-position: 0 0;
+      background-size: contain;
+      padding-top: 30px;
+      height: auto;
+    }
+
+    #historywrapper
+      {
+
+      .navbar.navbar-default
+        {
+          margin-bottom: 0;
+          margin-left: -15px;
+          margin-right: -15px;
+          height: 70px;
+          background-image: none;
+          background: -moz-linear-gradient(top, rgba(36,161,151,0.47) 0%, rgba(42,160,152,0.47) 14%, rgba(46,160,153,0.47) 24%, rgba(66,158,155,1) 69%,
+            rgba(79,157,157,1) 100%); /* FF3.6-15 */
+          background: -webkit-linear-gradient(top, rgba(36,161,151,0.47) 0%,rgba(42,160,152,0.47) 14%,rgba(46,160,153,0.47) 24%,rgba(66,158,155,1) 69%,
+            rgba(79,157,157,1) 100%); /* Chrome10-25,Safari5.1-6 */
+          background: linear-gradient(to bottom, rgba(36,161,151,0.47) 0%,rgba(42,160,152,0.47) 14%,rgba(46,160,153,0.47) 24%,rgba(66,158,155,1) 69%,
+            rgba(79,157,157,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7824a197', endColorstr='#4f9d9d',GradientType=0 ); /* IE6-9 */
+        }
+
+      .navbar-brand
+        {
+          margin-left: 10px;
+        }
+
+      .navbar-header
+        {
+          @media all and (max-width: 768px)
+            {
+              width: 30%;
+            }
+        }
+
+      div.nav.navbar-nav.navbar-right
+        {
+          @media all and (max-width: 768px)
+            {
+              width: 20%;
+              position: absolute;
+              left: 65%;
+              top: -5px;
+            }
+        }
+
+        ul.dropdown-menu
+          {
+            @media all and (max-width: 768px)
+              {
+                position: absolute;
+                width: 300px;
+                background-color: #fff;
+                top: 65px;
+                left: -156px;
+                //left: -150px;
+              }
+          }
+
+      .navbar-text
+        {
+          color: rgb(51, 51, 51);
+          padding-left: 15px;
+          padding-top: 5px;
+          font-size: 1.5em;
+
+          @media all and (max-width: 768px)
+            {
+              display: none;
+            }
+        }
+
+      .dropdown > button
+        {
+          margin: 15px 20px;
+        }
+
+      }
+
+  #Content
+    {
+      padding-top: 40px;
+      font-family: 'Bree Serif', serif;
+      font-size: 2em;
+      color: #121212;
+    }
+
+  footer
+    {
+      background-image: none;
+      background-color: rgb(51, 51, 51);
+      font-family: 'Bree Serif', serif;
+      font-size: 1.2em;
+      color: #fff;
+      text-align: center;
+
+      p:first-child
+        {
+          margin-bottom: -15px;
+          padding-top: 10px;
+          font-size: 1.4em;
+
+          @media all and (max-width: 768px)
+            {
+              margin-bottom: 0;
+            }
+        }
+
+      p a
+        {
+          color: inherit;
+          text-decoration: none;
+          display: inline-block;
+        }
+
+    }
+  }

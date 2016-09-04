@@ -37,6 +37,7 @@ $('#MovieModal').on('hidden.bs.modal', function () {
     $('#MovieCarousel').carousel('cycle');
     $("#mmVideo").unbind('pause');
     $("#mmVideo").unbind('ended');
+    $("#mmVideo").first().attr('src','');
 });
 
 // EOF

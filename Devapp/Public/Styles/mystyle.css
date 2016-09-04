@@ -1,13 +1,6 @@
-body {
-    font-family: 'Helvetica';
-    color: red;
-    font-size:24px;
-    padding-bottom: 70px;
-}
-
 #dropHistoryContent {
   height: 300px;
-  width: 250px;
+  width: 300px;
   overflow-y: auto;
   background: #dadada;
 }
@@ -40,13 +33,4 @@ body {
   border-radius: 8px;
 }
 
-#innerCarousel div.item.active.left  { left: -33%;             }
-#innerCarousel div.item.active.right { left: 33%;              }
-#innerCarousel div.item.next         { left: 33%               }
-#innerCarousel div.item.prev         { left: -33%              }
-
-
-.carousel-control.left        { background-image: none; }
-.carousel-control.right       { background-image: none; }
-.carousel-inner .item         { background: white;      }
 */
