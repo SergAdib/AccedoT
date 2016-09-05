@@ -1,10 +1,12 @@
+
+// Carousel Content container ************
 .carousel-extended
 {
 
   #IndicateCarousel
   {
     position: absolute;
-    bottom: -50px;
+    bottom: -73px;
     height: 35px;
     max-width: 70%;
     padding: 10px 10px;
@@ -12,13 +14,33 @@
     border-radius: 15px;
     border-left: 3px silver double;
     border-right: 3px silver double;
+    @media all and (max-width: 600px)
+      {
+        max-width: 95%;
+        height: 20px;
+        padding: 2px 4px 4px;
+        border: none;
+        bottom: -60px;
+      }
 
     >li
       {
-        //background-color: rgb(51, 51, 51);
+        margin: 0 2px;
+        @media all and (max-width: 600px)
+          {
+            height: 5px;
+            width: 5px;
+            border-radius: 2px;
+            margin-bottom: 4px;
+          }
       }
 
   }
+
+  #InnerCarousel
+    {
+      margin-bottom: 25px;
+    }
 
   .item div>a>img
   {
@@ -28,35 +50,95 @@
     margin: auto;
     background: url('../Images/ajax-loader.gif') no-repeat;
     background-position: center;
+    border-radius: 0.8em;
+
+    @media all and (max-width: 768px)
+      {
+        min-height: 90px;
+      }
   }
 
-  .itemcaption
+  div.item.active div a:focus img,
+  div.item.active div a:active img
+  //div.item.active>div img:hover,
+    {
+      -webkit-box-shadow: 0px 0px 8px 4px rgba(21,184,163,0.67);
+      -moz-box-shadow: 0px 0px 8px 4px rgba(21,184,163,0.67);
+      box-shadow: 0px 0px 8px 4px rgba(21,184,163,0.67);
+      outline: 0;
+    }
+
+  div.itemcaption
   {
-    color: #1f1f1f;
+    color: #f3f3f3;
     text-align: center;
+    height: 4em;
+    overflow: hidden;
+    background-color: rgb(51,51,51);
+    border-radius: 0.8em;
+    border: 1px double rgb(51,51,51);
+    margin-top: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
     h3
     {
-      font-size: 0.7em;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      font-weight: 600;
       display: inline-block;
+      margin: 3px auto auto;
+      @media all and (max-width: 600px)
+        {
+          font-size: 0.65em;
+          margin: 8px 4px 3px;
+        }
     }
   }
 
   .carousel-control
   {
-    width: 4%;
+    width: 4em;
     background-image:none;
 
     &.left
     {
       margin-left:25px;
+      @media all and (max-width: 600px)
+        {
+          margin-left: -10px;
+        }
     }
 
     &.right
     {
       margin-right:25px;
+      @media all and (max-width: 600px)
+        {
+          margin-right: -10px;
+        }
     }
+    &:active span::before,
+    &:focus span::before
+      {
+        -webkit-box-shadow: 0px 0px 8px 4px rgba(158,63,158,0.67);
+        -moz-box-shadow: 0px 0px 8px 4px rgba(158,63,158,0.67);
+        box-shadow: 0px 0px 8px 4px rgba(158,63,158,0.67);
+        outline: 0;
+      }
+
+    > span
+      {
+        margin-top: -40px;
+        font-size: 2.5em;
+
+        &:focus, &:hover
+          {
+            color: red;
+          }
+      }
   }
 
+// Inner carousel && slides
   .cloneditem-1,
   .cloneditem-2,
   .cloneditem-3,
@@ -68,7 +150,9 @@
 
   .carousel-inner
   {
-    @media all and (min-width: 768px)
+
+// Small devices
+    @media all and (max-width: 767px)
     {
       @media (transform-3d), (-webkit-transform-3d)
       {
@@ -115,12 +199,68 @@
       }
 
       .cloneditem-1,
-      .cloneditem-2
+      .cloneditem-2,
       {
         display: block;
       }
     }
 
+// Medium devices
+    @media all and (min-width: 768px)
+    {
+      @media (transform-3d), (-webkit-transform-3d)
+      {
+        > .item.active.right,
+        > .item.next
+        {
+          transform: translate3d(25%, 0, 0);
+          left: 0;
+        }
+
+        > .item.active.left,
+        > .item.prev
+        {
+          transform: translate3d(-25%, 0, 0);
+          left: 0;
+        }
+
+        > .item.left,
+        > .item.prev.right,
+        > .item.active
+        {
+          transform: translate3d(0, 0, 0);
+          left: 0;
+        }
+      }
+
+      > .active.left,
+      > .prev
+      {
+        left: -25%;
+      }
+
+      > .active.right,
+      > .next
+      {
+        left:  25%;
+      }
+
+      > .left,
+      > .prev.right,
+      > .active
+      {
+        left: 0;
+      }
+
+      .cloneditem-1,
+      .cloneditem-2,
+      .cloneditem-3,
+      {
+        display: block;
+      }
+    }
+
+// Large devices
     @media all and (min-width: 992px)
     {
       @media (transform-3d), (-webkit-transform-3d)

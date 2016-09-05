@@ -47,19 +47,78 @@ body {
   #main #historywrapper div.nav.navbar-nav.navbar-right {
     width: 20%;
     position: absolute;
-    left: 65%;
+    right: 110px;
     top: -5px;
   }
+}
+
+@media all and (max-width: 768px) and (max-width: 600px) {
+  #main #historywrapper div.nav.navbar-nav.navbar-right {
+    right: 130px;
+  }
+}
+
+#main #historywrapper ul.dropdown-menu {
+  background-color: #333333;
+  border-color: #333333;
+  font-family: 'Bree Serif', serif;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+#main #historywrapper ul.dropdown-menu > li:first-child {
+  color: #dadada;
+}
+
+#main #historywrapper ul.dropdown-menu > li:first-child > span {
+  color: red;
+}
+
+#main #historywrapper ul.dropdown-menu > li {
+  padding-left: 15px;
+}
+
+#main #historywrapper ul.dropdown-menu > li > span {
+  font-size: 0.9em;
+}
+
+#main #historywrapper ul.dropdown-menu > li.btn {
+  margin: 3px 125px;
 }
 
 @media all and (max-width: 768px) {
   #main #historywrapper ul.dropdown-menu {
     position: absolute;
-    width: 300px;
-    background-color: #fff;
+    width: 350px;
     top: 65px;
     left: -156px;
   }
+}
+
+#main #historywrapper ul.dropdown-menu #dropHistoryContent {
+  height: 500px;
+  width: 346px;
+  overflow-y: auto;
+  background: #dadada;
+}
+
+#main #historywrapper ul.dropdown-menu #dropHistoryContent span.droptitle {
+  font-variant: small-caps;
+  font-size: 1.15em;
+  padding-left: 10px;
+  display: block;
+}
+
+#main #historywrapper ul.dropdown-menu #dropHistoryContent span.droptime, #main #historywrapper ul.dropdown-menu #dropHistoryContent span.dropstatus {
+  font-size: 0.75em;
+  padding-left: 5px;
+  display: inline-block;
+}
+
+#main #historywrapper ul.dropdown-menu #dropHistoryContent span.btn.btn-link {
+  color: red;
+  display: inline;
+  margin-left: 20px;
 }
 
 #main #historywrapper .navbar-text {
@@ -79,11 +138,64 @@ body {
   margin: 15px 20px;
 }
 
+#main #historywrapper .dropdown > button:active, #main #historywrapper .dropdown > button:focus {
+  -webkit-box-shadow: 0px 0px 8px 4px rgba(158, 63, 158, 0.67);
+  -moz-box-shadow: 0px 0px 8px 4px rgba(158, 63, 158, 0.67);
+  box-shadow: 0px 0px 8px 4px rgba(158, 63, 158, 0.67);
+  outline: 0;
+}
+
+#main #MovieModal {
+  font-family: 'Bree Serif', serif;
+}
+
+#main #MovieModal #MovieModalLabel {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 1.75em;
+  font-variant: small-caps;
+  color: #f3f3f3;
+}
+
+#main #MovieModal .modal-body p {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-bottom: 0.3em;
+}
+
+@media all and (max-width: 600px) {
+  #main #MovieModal .modal-body p {
+    font-size: 0.8em;
+  }
+}
+
+#main #MovieModal .modal-body p > span {
+  font-size: 1.25em;
+  font-weight: 300;
+}
+
+@media all and (max-width: 600px) {
+  #main #MovieModal .modal-body p > span {
+    font-size: 0.95em;
+  }
+}
+
+#main #MovieModal .modal-header, #main #MovieModal .modal-footer {
+  background-color: #333333;
+}
+
+#main #MovieModal .modal-header > button > span {
+  background-color: #f3f3f3;
+}
+
+#main #MovieModal #mmImage img {
+  height: 8em;
+}
+
 #main #Content {
   padding-top: 40px;
   font-family: 'Bree Serif', serif;
   font-size: 2em;
-  color: #121212;
+  color: #043d32;
 }
 
 #main footer {
