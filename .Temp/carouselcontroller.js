@@ -27,6 +27,15 @@ function carouselController($scope) {
     $('#MovieModal').modal();
     setModalWidth(obj.contents[0].width);
 
+    $(window).resize(function () {
+      var cwidth = parseInt(document.getElementById("MovieModalContent").style.width);
+      var client = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      if (cwidth > client) {
+        setModalWidth(client);
+        console.log('Player size adjusted');
+      }
+    });
+
     $("#mmVideo").bind({
       pause: function pause() {
         var time = this.currentTime;
@@ -56,8 +65,10 @@ function carouselController($scope) {
       video.width = x;
       video.height = z;
     }
-    var percent = Math.round((x + 60) / scape * 100);
-    var width = percent.toString() + "%";
+    //let percent   = Math.round(((x + 60) / scape) * 100);
+    //let width     = percent.toString() + "%";
+    var pixels = Math.round(x + 60);
+    var width = pixels.toString() + "px";
     container.style.width = width;
   }
 

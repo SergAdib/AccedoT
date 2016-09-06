@@ -159,6 +159,7 @@ function historyController($scope, $http, $rootScope) {
 
   $scope.refreshDropping = function () {
     $scope.dropHistory = $scope.history.watchedMovies;
+    if (!$scope.dropHistory) $scope.dropHistory = [];
   };
 
   $scope.formDropHistory = function () {
@@ -188,7 +189,7 @@ function historyController($scope, $http, $rootScope) {
             return x.id == item.id && x.title == item.title;
           });
           tags += '</span><span class="dropstatus">' + status + '</span><span class="btn btn-link" onclick="popupme(';
-          tags += index + ');">' + again + '</span></div></li>';
+          tags += index + ');" tabindex="0">' + again + '</span></div></li>';
           $scope.lastVisit = formDate($scope.history.updatedDate);
         }
       } catch (err) {

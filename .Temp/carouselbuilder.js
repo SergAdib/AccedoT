@@ -30,8 +30,11 @@ function carouselBuilder(obj, counter) {
         if (!itemToClone.length) {
           itemToClone = $(this).siblings(':first');
         }
-        itemToClone.children(':first-child').clone().addClass("cloneditem-" + i).appendTo($(this));
+        itemToClone.children(':first-child').clone().addClass("cloneditem-" + i)
+        //.attr('tabindex', '0')
+        .appendTo($(this));
       };
+      //$(this).children(':first').attr('tabindex', '0');
     });
   });
 }

@@ -47,8 +47,11 @@ function carouselBuilder(obj, counter) {
         if (!itemToClone.length) {
           itemToClone = $(this).siblings(':first');
         }
-        itemToClone.children(':first-child').clone().addClass("cloneditem-" + i).appendTo($(this));
+        itemToClone.children(':first-child').clone().addClass("cloneditem-" + i)
+        //.attr('tabindex', '0')
+        .appendTo($(this));
       };
+      //$(this).children(':first').attr('tabindex', '0');
     });
   });
 }
@@ -84,6 +87,15 @@ function carouselController($scope) {
     $('#MovieModal').modal();
     setModalWidth(obj.contents[0].width);
 
+    $(window).resize(function () {
+      var cwidth = parseInt(document.getElementById("MovieModalContent").style.width);
+      var client = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      if (cwidth > client) {
+        setModalWidth(client);
+        console.log('Player size adjusted');
+      }
+    });
+
     $("#mmVideo").bind({
       pause: function pause() {
         var time = this.currentTime;
@@ -113,8 +125,10 @@ function carouselController($scope) {
       video.width = x;
       video.height = z;
     }
-    var percent = Math.round((x + 60) / scape * 100);
-    var width = percent.toString() + "%";
+    //let percent   = Math.round(((x + 60) / scape) * 100);
+    //let width     = percent.toString() + "%";
+    var pixels = Math.round(x + 60);
+    var width = pixels.toString() + "px";
     container.style.width = width;
   }
 
@@ -494,6 +508,7 @@ function historyController($scope, $http, $rootScope) {
 
   $scope.refreshDropping = function () {
     $scope.dropHistory = $scope.history.watchedMovies;
+    if (!$scope.dropHistory) $scope.dropHistory = [];
   };
 
   $scope.formDropHistory = function () {
@@ -523,7 +538,7 @@ function historyController($scope, $http, $rootScope) {
             return x.id == item.id && x.title == item.title;
           });
           tags += '</span><span class="dropstatus">' + status + '</span><span class="btn btn-link" onclick="popupme(';
-          tags += index + ');">' + again + '</span></div></li>';
+          tags += index + ');" tabindex="0">' + again + '</span></div></li>';
           $scope.lastVisit = formDate($scope.history.updatedDate);
         }
       } catch (err) {

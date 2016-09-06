@@ -46,7 +46,7 @@
             </div>
             <div class="nav navbar-nav navbar-right">
               <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle btn-success" type="button" id="dropdownHistory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="formDropHistory();" tabindex="1" autofocus="1">
+                <button class="btn btn-default dropdown-toggle btn-success" type="button" id="dropdownHistory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="formDropHistory();" tabindex="1"> <!-- autofocus="1" to start with it -->
                   <span class="badge">{{dropHistory.length}}</span>
                   &nbsp;&nbsp;History&nbsp;&nbsp;
                   <span class="caret"></span>
@@ -56,7 +56,7 @@
                     History last time saved:
                     <span>{{lastVisit}}</span>
                   </li>
-                  <li class="btn btn-warning" ng-click="deleteHistory();">Clear History</li>
+                  <li class="btn btn-warning" ng-click="deleteHistory();" tabindex="0">Clear History</li>
 
                   <div id="dropHistoryContent">
                     <!-- Content for History dropdown list -->
@@ -89,7 +89,7 @@
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="right carousel-control" href="#MovieCarousel" role="button" data-slide="next" tabindex="-1">
+            <a class="right carousel-control" href="#MovieCarousel" role="button" data-slide="next" tabindex="3">
               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -108,7 +108,7 @@
       <footer class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
           <p><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>Test sample of VoD app</p>
-          <p class="navbar-right"><span class="glyphicon glyphicon-cog" aria-hidden="true">&nbsp;<a href="https://github.com/SergAdib/AccedoT">GitHub repository</a></p>
+          <p class="navbar-right"><span class="glyphicon glyphicon-cog" aria-hidden="true">&nbsp;<a href="https://github.com/SergAdib/AccedoT" tabindex="10">GitHub repository</a></p>
           <p class="navbar-left">&copy; 2016</p>
         </div>
       </footer>
