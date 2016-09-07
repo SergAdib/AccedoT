@@ -61,17 +61,20 @@ export function historyController($scope, $http, $rootScope) {
 
   // // Delete history from Collection in DB
   $scope.deleteHistory = function() {
-    let id = $scope.history.session_id;
-    $http.delete('/api/history/' + id)
-      .success(function(data) {
-        $scope.deleteStoredHistory();
-        $scope.gotHistory = {};
-        $scope.refreshDropping();
-        console.log('History deleted in DB: ' + data);
-      })
-      .error(function(data) {
-        console.log('Error deleting DB history: ' + data);
-      });
+    let yes = confirm("You're about to delete viewing history. Sure?");
+    if (yes) {
+      let id = $scope.history.session_id;
+      $http.delete('/api/history/' + id)
+        .success(function(data) {
+          $scope.deleteStoredHistory();
+          $scope.gotHistory = {};
+          $scope.refreshDropping();
+          console.log('History deleted in DB: ' + data);
+        })
+        .error(function(data) {
+          console.log('Error deleting DB history: ' + data);
+        });
+      }
   };
 
   // Events for history

@@ -125,7 +125,14 @@
                 <video id="mmVideo" controls preload="metadata" width="320" height="180" poster="ajax-loader.jpg">
                   <!-- Sources inserted from controller, width/height/image ajusted -->
                 </video>
-
+                <div id="mmVideo-controls">
+                  <button type="button" id="mmPlay"><span class="glyphicon glyphicon-play" aria-hidden="false"></span></button>
+                  <span id="mmCurrentTime">00:00:00</span>/<span id="mmTotalTime">00:00:00</span>
+                  <input type="range" id="mmProgress" value="0">
+                  <button type="button" id="mmMute"><span class="glyphicon glyphicon-volume-up" aria-hidden="false"></span></button>
+                  <input type="range" id="mmVolume" min="0" max="1" step="0.1" value="1">
+                  <button type="button" id="mmFull"><span class="glyphicon glyphicon-resize-full" aria-hidden="false"></span></button>
+                </div>
               </div>
               <p>Production date:&nbsp;<span id="mmDate">Movie published date goes here</span>
                 &nbsp;&nbsp;&nbsp;&nbsp;Duration:&nbsp;<span id="mmDuration">Movie duration time goes here</span></p>
@@ -150,8 +157,8 @@
 
 <!-- Scripts && Footer section -------------------------------------------------------------------->
     <script src="../Scripts/Vendors.js"></script>
-    <script src="Scripts/Footer.js"></script>
 
+    <script src="Scripts/Footer.js"></script>
 
 <!--  @@@TODO:: Google Analytics: change UA-XXXXX-X to be your site's ID.
   <script>
