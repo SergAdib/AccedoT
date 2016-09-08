@@ -50,7 +50,7 @@ $().ready(function () {
   function focusit(obj) {
     return setTimeout(function () {
       obj.focus();
-      console.log('Focus transferred to:', obj);
+      //console.log('Focus transferred to:', obj);
     }, 10);
   };
 
@@ -109,29 +109,171 @@ $().ready(function () {
   // Binding focus handlers for movie box
   $('#MovieModal').on('shown.bs.modal', function () {
     var closebtn = $('.modal-footer>button');
-    var player = $('video#mmVideo');
-    focusit(player);
+    var play = $('#mmPlay'),
+        progress = $('#mmProgress'),
+        mute = $('#mmMute'),
+        volume = $('#mmVolume'),
+        sized = $('#mmFull');
+    focusit(play);
 
-    closebtn.keydown(function (e) {
-      e.preventDefault();
-      if (e.which == 40 || e.which == 39 || e.which == 9) {
-        focusit(player);
+    // Controls
+    play.keydown(function (e) {
+      if (e.which == 9 || e.which == 39) {
+        e.preventDefault();
+        focusit(progress);
       }
-      if (e.which == 37 || e.which == 38) {
-        focusit(player);
+      if (e.which == 37) {
+        focusit(closebtn);
       }
     });
-    // // // Bind to player controls
+    progress.keydown(function (e) {
+      if (e.which == 39 || e.which == 9) {
+        e.preventDefault();
+        focusit(mute);
+      }
+      if (e.which == 37) {
+        e.preventDefault();
+        focusit(play);
+      }
+    });
+    mute.keydown(function (e) {
+      if (e.which == 9 || e.which == 39) {
+        e.preventDefault();
+        focusit(volume);
+      }
+      if (e.which == 37) {
+        focusit(progress);
+      }
+    });
+    volume.keydown(function (e) {
+      if (e.which == 39 || e.which == 9) {
+        e.preventDefault();
+        focusit(sized);
+      }
+      if (e.which == 37) {
+        e.preventDefault();
+        focusit(mute);
+      }
+    });
+    sized.keydown(function (e) {
+      if (e.which == 9 || e.which == 39) {
+        e.preventDefault();
+        focusit(closebtn);
+      }
+      if (e.which == 37) {
+        focusit(volume);
+      }
+    });
 
-
-    // // // Bind to player controls
+    // Close modal button
+    closebtn.keydown(function (e) {
+      e.stopPropagation();
+      if (e.which == 40 || e.which == 39 || e.which == 9) {
+        focusit(play);
+      }
+      if (e.which == 37 || e.which == 38) {
+        focusit(sized);
+      }
+    });
   });
   $('#MovieModal').on('hide.bs.modal', function () {
     focusit(histbtn); // temporary
   });
 
-  // Binding focus hadlers to slides
+  // Other body active elements events
+  var mylink = $('#myRepLink');
+  var leftControl = $('a.left.carousel-control');
+  var rightControl = $('a.right.carousel-control');
 
+  histbtn.keydown(function (e) {
+    e.stopPropagation();
+    if (e.which == 38 || e.which == 40) {
+      e.preventDefault();
+      focusit(mylink);
+    }
+    if (e.which == 37 || e.which == 9) {
+      focusit(leftControl);
+    }
+    if (e.which == 39) {
+      focusit(rightControl);
+    }
+  });
+  mylink.keydown(function (e) {
+    if (e.which == 38 || e.which == 40 || e.which == 9) {
+      e.preventDefault();
+      focusit(histbtn);
+    }
+    if (e.which == 37) {
+      focusit(leftControl);
+    }
+    if (e.which == 39) {
+      focusit(rightControl);
+    }
+  });
+  leftControl.keydown(function (e) {
+    if (e.which == 38) {
+      focusit(histbtn);
+    }
+    if (e.which == 40) {
+      focusit(mylink);
+    }
+    if (e.which == 39 || e.which == 9) {
+      e.stopPropagation();
+      $('#MovieCarousel').carousel('pause');
+      focusit(firstSlide);
+      return false;
+    }
+  });
+  rightControl.keydown(function (e) {
+    if (e.which == 38) {
+      focusit(histbtn);
+    }
+    if (e.which == 40) {
+      focusit(mylink);
+    }
+    if (e.which == 37) {
+      e.stopPropagation();
+      $('#MovieCarousel').carousel('pause');
+      focusit(lastSlide);
+      return false;
+    }
+  });
+  // Binding focus hadlers to slides
+  var firstSlide = '';
+  var lastSlide = '';
+
+  $('#MovieCarousel').bind('slid.bs.carousel', function (event) {
+    var activeSlider = $('div.item.active').children();
+    var slides = [];
+    $.each(activeSlider, function () {
+      if ($(this).css('display') == 'block') slides.push($(this).children('a').first());
+    });
+    firstSlide = slides[0];
+    lastSlide = slides[slides.length - 1];
+    $.each(slides, function (index) {
+      $(this).keydown(function (e) {
+        e.stopPropagation();
+        if ((e.which == 39 || e.which == 9) && index != slides.length - 1) {
+          focusit(slides[index + 1]);
+          return false;
+        }
+        if ((e.which == 39 || e.which == 9) && (index = slides.length - 1)) {
+          $('#MovieCarousel').carousel('cycle');
+          focusit(rightControl);
+          return false;
+        }
+        if (e.which == 37 && index != 0) {
+          focusit(slides[index - 1]);
+          return false;
+        }
+        if (e.which == 37 && (index = 1)) {
+          $('#MovieCarousel').carousel('cycle');
+          focusit(leftControl);
+          return false;
+        }
+      });
+    });
+  });
 });
 
 // @@Custom player controls for video player
@@ -186,10 +328,16 @@ window.onload = function () {
     video.currentTime = time;
   });
   progress.addEventListener("mousedown", function () {
-    video.pause(); // to prevent stuck on dragging
+    if (!video.paused) {
+      video.pause(); // to prevent stuck on dragging
+      play.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="false"></span>';
+    }
   });
   progress.addEventListener("mouseup", function () {
-    video.play();
+    if (video.paused) {
+      video.play();
+      play.innerHTML = '<span class="glyphicon glyphicon-pause" aria-hidden="false"></span>';
+    }
   });
   video.addEventListener("timeupdate", function () {
     var value = 100 / video.duration * video.currentTime;

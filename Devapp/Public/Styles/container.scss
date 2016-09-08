@@ -220,6 +220,121 @@ body
         }
 
   }
+// Player custom controls ****************
+  #mmPlayer
+    {
+      position: relative;
+    }
+
+  #mmPlayer:hover #mmVideo-controls, #mmPlayer:focus #mmVideo-controls
+    {
+      opacity: 0.9;
+    }
+  #mmVideo-controls
+    {
+      padding: 5px;
+      padding-left: 10px;
+      width: 96%;
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      right: 0;
+      font-size: 0.9em;
+      color: #dfdfdf;
+      opacity: 0.5;
+      height: auto;
+      -webkit-transition: opacity .3s;
+      -moz-transition: opacity .3s;
+      -o-transition: opacity .3s;
+      -ms-transition: opacity .3s;
+      transition: opacity .3s;
+      background-image: none;
+      background: -moz-linear-gradient(top, rgba(36,161,151,0.47) 0%, rgba(42,160,152,0.47) 14%, rgba(46,160,153,0.47) 24%, rgba(66,158,155,1) 69%,
+        rgba(79,157,157,1) 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(top, rgba(36,161,151,0.47) 0%,rgba(42,160,152,0.47) 14%,rgba(46,160,153,0.47) 24%,rgba(66,158,155,1) 69%,
+        rgba(79,157,157,1) 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom, rgba(36,161,151,0.47) 0%,rgba(42,160,152,0.47) 14%,rgba(46,160,153,0.47) 24%,rgba(66,158,155,1) 69%,
+        rgba(79,157,157,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7824a197', endColorstr='#4f9d9d',GradientType=0 ); /* IE6-9 */
+
+      @media all and (max-width: 660px)
+        {
+          font-size: 0.7em;
+          width: 93%;
+        }
+
+    > button, input, span
+      {
+        display: inline-block;
+        padding: 2px 2px;
+        margin-right: 10px;
+        &:active,
+        &:focus
+          {
+            outline-color: #fff;
+          }
+      }
+    > button:hover, input:hover, span:hover
+      {
+        cursor: pointer;
+      }
+    > button
+      {
+        height: 20px;
+        width: 20px;
+        background: rgba(0,0,0,.5);
+        border: 0;
+        color: #EEE;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
+        @media all and (max-width: 660px)
+          {
+            height: 12px;
+            width: 12px;
+            padding: 0;
+            margin-right: 5px;
+          }
+      }
+    > input[type=range]::-webkit-slider-thumb
+      {
+        transform: rotate(90deg);
+      }
+    > input#mmProgress
+      {
+        width: 40%;
+        height: 15px;
+        @media all and (max-width: 660px)
+          {
+            width: 30%;
+            height: 8px;
+            margin-right: 5px;
+          }
+      }
+    > input#mmVolume
+      {
+        width: 15%;
+        height: 15px;
+        @media all and (max-width: 660px)
+          {
+            width: 8%;
+            height: 8px;
+            margin-right: 5px;
+          }
+      }
+
+    }
+/*
+
+button#mmPlay
+span#mmCurrentTime
+span#mmTotalTime
+input#mmProgress
+button#mmMute
+input#mmVolume
+button#mmFull
+*/
 
 // Main Content container ****************
   #Content
