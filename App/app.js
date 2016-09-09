@@ -12,6 +12,7 @@ var methodOverride = require('method-override');
 
 var api = require('./Server/routes');
 
+/*
 var morgan = require('morgan');
 var fs = require('fs');
 
@@ -28,7 +29,7 @@ app.use(morgan('combined', {
     stream: errStream
 }));
 // ##End comm.
-
+*/
 // Server configuration
 app.use(express.static(__dirname + '/Public'));
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));
