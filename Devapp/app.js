@@ -11,6 +11,7 @@ var methodOverride  = require('method-override');
 
 var api             = require('./Server/routes');
 
+/*
 var morgan          = require('morgan');
 var fs              = require('fs');
 
@@ -25,6 +26,7 @@ app.use(morgan('combined', {
     stream: errStream
   }));
 // ##End comm.
+*/
 
 // Server configuration
 app.use(express.static(__dirname + '/Public'));
@@ -33,9 +35,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
-// DB configuration - simple, without log/pass
+// DB configuration section
 
-mongoose.connect('mongodb://localhost:27017/accedot');
+//mongoose.connect('mongodb://localhost:27017/accedot');
+mongoose.connect('mongodb://serga:serga@ds027896.mlab.com:27896/accedot');
 
 // Start your engines :)
 // // Process calls to API and send 'index' to all others, not related
