@@ -134,6 +134,9 @@ gulp.task('jscompile', function() {
 
 gulp.task('jsfooter', function() {
 	var code =  gulp.src('.Temp/Footer.js')
+		.pipe(gp.sourcemaps.init({loadMaps: true}))
+		.pipe(gp.uglify())
+		.pipe(gp.sourcemaps.write('.'))
 		.pipe(gulp.dest('App/Public/Scripts/'));
 	return code;
 })
